@@ -1,0 +1,9 @@
+.vs/
+.svn/
+ClassModel/bin/
+ClassModel/obj/
+DashBoardService/bin/
+DashBoardService/obj/
+GatewayApi/bin/
+GatewayApi/obj/
+

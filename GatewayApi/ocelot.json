@@ -1,0 +1,36 @@
+{
+  "ReRoutes": [
+    {
+      "DownstreamPathTemplate": "/api/dashboard/{catchAll}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 2001
+        }
+      ],
+      "UpstreamPathTemplate": "/api/dashboard/{catchAll}",
+      "UpstreamHttpMethod": [ "Options", "Get", "Post", "Put", "Delete" ],
+      "DownstreamHeaderTransform": {
+        "Location": "{DownstreamBaseUrl}, {BaseUrl}"
+      },
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 1,
+        "DurationOfBreak": 7200001,
+        "TimeoutValue": 7200000
+
+      },
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        "PeriodTimespan": 1,
+        "Limit": 10
+      }
+    }
+  ],
+  "GlobalConfiguration": {
+    "RequestIdKey": "OcRequestId",
+    "AdministrationPath": "/administration"
+  }
+}
