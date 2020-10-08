@@ -1,12 +1,12 @@
 ﻿using ClassModel.model.bsc;
-using DashBoardApi.server.bcs;
+using DashBoardService.server.bcs;
 using Quartz;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DashBoardApi.schedule
+namespace DashBoardService.schedule
 {
     public class QueryData : IJob
     {

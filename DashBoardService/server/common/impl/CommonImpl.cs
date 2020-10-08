@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace DashBoardApi.server.common.impl
+namespace DashBoardService.server.common.impl
 {
     public class CommonImpl: ICommon
     {

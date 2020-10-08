@@ -11,7 +11,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DashBoardApi.server.bcs.impl
+namespace DashBoardService.server.bcs.impl
 {
     public class Detal_lapmoiImpl : Reponsitory<Detal_lapmoi>, IDetal_lapmoi
     {

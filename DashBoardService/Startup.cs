@@ -1,31 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ClassModel.connnection.sql;
-using DashBoardApi.quaz.factory;
-using DashBoardApi.server.bcs;
-using DashBoardApi.server.bcs.impl;
-using DashBoardApi.server.common;
-using DashBoardApi.server.common.impl;
-using DashBoardApi.server.origanization;
-using DashBoardApi.server.origanization.impl;
+﻿using ClassModel.connnection.sql;
+using DashBoardService.quaz.factory;
+using DashBoardService.server.bcs;
+using DashBoardService.server.bcs.impl;
+using DashBoardService.server.common;
+using DashBoardService.server.common.impl;
+using DashBoardService.server.origanization;
+using DashBoardService.server.origanization.impl;
+using DashBoardServicve.server.bcs.impl;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Spi;
 using ReportSoftWare.model;
 using ReportSoftWare.schedule;
 
-namespace DashBoardApi
+namespace DashBoardService
 {
     public class Startup
     {

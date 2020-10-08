@@ -12,7 +12,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DashBoardApi.server.origanization.impl
+namespace DashBoardService.server.origanization.impl
 {
     public class OrganizationImpl : Reponsitory<Organization>, IOrganization
     {

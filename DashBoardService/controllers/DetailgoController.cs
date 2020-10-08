@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using ClassModel.model.bsc;
 using ClassModel.model.respond;
 using ClassModel.model.RqGrafana;
-using DashBoardApi.server.bcs;
-using DashBoardApi.server.common;
+using DashBoardService.server.bcs;
 using Microsoft.AspNetCore.Mvc;
+using DashBoardService.server.common;
 
-namespace DashBoardApi.controllers
+namespace DashBoardService.controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -63,22 +62,22 @@ namespace DashBoardApi.controllers
                 }
                 else if (rq.targets[0].type == "table")
                 {
-                    List<Detail_go> result = m_detailgo.execureDetailgo(rq);
-                    List<dynamic> col = new List<dynamic>
-                    {                        new { text = "Đơn vị", type = "string" },                        new { text = "TTVT Phát triển mới Fiber", type = "string" },                         new { text = "Công tác lắp đặt Fiber", type = "string" },                        new { text = "Hủy Fiber", type = "number" },                         new { text = "Thực tăng/ PTM", type = "number" },                        new { text = "Hủy/PTM", type = "number" }                    };
-                    List<dynamic> row = new List<dynamic>();
-                    foreach (var ele in result)
-                    {
-                        foreach (var target in rq.targets)
-                        {
-                            if (ele.ten_tt.Contains(target.target))
-                            {
-                                row.Add(new List<dynamic> { ele.unix_time, ele.ten_tt, ele.ten_dv, ele.sl_login, ele.ty_le });
-                            }
-                        };
-                    };
+                    //List<Detail_go> result = m_detailgo.execureDetailgo(rq);
+                    //List<dynamic> col = new List<dynamic>
+                    //{                    //    new { text = "Đơn vị", type = "string" },                    //    new { text = "TTVT Phát triển mới Fiber", type = "string" },                     //    new { text = "Công tác lắp đặt Fiber", type = "string" },                    //    new { text = "Hủy Fiber", type = "number" },                     //    new { text = "Thực tăng/ PTM", type = "number" },                    //    new { text = "Hủy/PTM", type = "number" }                    //};
+                    //List<dynamic> row = new List<dynamic>();
+                    //foreach (var ele in result)
+                    //{
+                    //    foreach (var target in rq.targets)
+                    //    {
+                    //        if (ele.ten_tt.Contains(target.target))
+                    //        {
+                    //            row.Add(new List<dynamic> { ele.unix_time, ele.ten_tt, ele.ten_dv, ele.sl_login, ele.ty_le });
+                    //        }
+                    //    };
+                    //};
 
-                    x = new List<dynamic> {                        new {                                columns = col,                                rows = row,                                type = "table"                            }                    };
+                    //x = new List<dynamic> {                    //    new {                    //            columns = col,                    //            rows = row,                    //            type = "table"                    //        }                    //};
                 }
 
                 return x;            }            catch (Exception e)            {                datarp.error = e;            }            return datarp;        }

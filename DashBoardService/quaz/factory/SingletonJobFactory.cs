@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DashBoardApi.quaz.factory
+namespace DashBoardService.quaz.factory
 {
     public class SingletonJobFactory : IJobFactory
     {

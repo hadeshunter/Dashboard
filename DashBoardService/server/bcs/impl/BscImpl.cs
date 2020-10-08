@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 
-namespace DashBoardApi.server.bcs.impl
+namespace DashBoardService.server.bcs.impl
 {
     public class BscImpl : IBsc
     {

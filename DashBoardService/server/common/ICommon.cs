@@ -1,4 +1,4 @@
-﻿namespace DashBoardApi.server.common
+﻿namespace DashBoardService.server.common
 {
     public interface ICommon
     {

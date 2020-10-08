@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DashBoardApi.server.bcs
+namespace DashBoardService.server.bcs
 {
     public interface IDetail_go:IReponsitory<Detail_go>
     {

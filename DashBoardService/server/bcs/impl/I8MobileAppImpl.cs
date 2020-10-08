@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DashBoardApi.server.bcs.impl
+namespace DashBoardService.server.bcs.impl
 {
     public class I8MobileAppImpl : Reponsitory<I8MobileApp>, II8MobileApp
     {

@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using ClassModel.model.bsc;
 using ClassModel.model.RqGrafana;
 using ClassModel.respond;
-using DashBoardApi.schedule;
-using DashBoardApi.server.bcs;
-using DashBoardApi.server.common;
-using DashBoardApi.server.origanization;
+using DashBoardService.schedule;
+using DashBoardService.server.bcs;
+using DashBoardService.server.common;
+using DashBoardService.server.origanization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DashBoardApi.Controllers
+namespace DashBoardService.Controllers
 {
     [Route("api/dashboard/[controller]")]    [ApiController]    public class ValuesController : ControllerBase    {        private ICommon m_common;        private IBsc m_bsc;        private IOrganization m_organization;        private II8MobileApp m_i8MobileApp;
 

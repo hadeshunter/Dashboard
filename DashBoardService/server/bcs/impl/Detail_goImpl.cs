@@ -2,16 +2,15 @@
 using ClassModel.connnection.reponsitory.impl;
 using ClassModel.connnection.sql;
 using ClassModel.model.bsc;
+using ClassModel.model.RqGrafana;
 using Dapper;
+using DashBoardService.server.bcs;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
-using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace DashBoardApi.server.bcs.impl
+namespace DashBoardServicve.server.bcs.impl
 {
     public class Detail_goImpl : Reponsitory<Detail_go>, IDetail_go
     {
@@ -21,7 +20,7 @@ namespace DashBoardApi.server.bcs.impl
             m_configuration = configuration;
         }
 
-        public dynamic execureDetailgo()
+        public dynamic execureDetailgo(RqGrafana rq)
         {
             List<Detail_go> result = new List<Detail_go>();
             var dyParam = new OracleDynamicParameters();
