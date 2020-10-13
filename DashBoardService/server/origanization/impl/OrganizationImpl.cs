@@ -3,6 +3,7 @@ using ClassModel.connnection.reponsitory.impl;
 using ClassModel.connnection.sql;
 using ClassModel.model.bsc;
 using ClassModel.model.organization;
+using ClassModel.model.unit;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
@@ -50,6 +51,43 @@ namespace DashBoardService.server.origanization.impl
                 insert(i);
             }
         }
+
+        public dynamic getAllUnit()
+        {
+            List<Unit> result = new List<Unit>();
+            var dyParam = new OracleDynamicParameters();
+            dyParam.Add("o_data", OracleDbType.RefCursor, ParameterDirection.Output);
+            var conn = GetConnection();
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+            if (conn.State == ConnectionState.Open)
+            {
+                var query = "dashboard.getTTVT_DoiVT";
+                result = SqlMapper.Query<Unit>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<Unit>();
+            }
+            return result;
+        }
+
+        public dynamic getAllCenter()
+        {
+            List<Unit> result = new List<Unit>();
+            var dyParam = new OracleDynamicParameters();
+            dyParam.Add("o_data", OracleDbType.RefCursor, ParameterDirection.Output);
+            var conn = GetConnection();
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+            if (conn.State == ConnectionState.Open)
+            {
+                var query = "dashboard.getTTVT";
+                result = SqlMapper.Query<Unit>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<Unit>();
+            }
+            return result;
+        }
+
 
         public IDbConnection GetConnection()
         {

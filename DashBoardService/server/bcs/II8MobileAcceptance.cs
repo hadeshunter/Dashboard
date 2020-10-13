@@ -1,13 +1,11 @@
 ﻿using ClassModel.connnection.reponsitory;
 using ClassModel.model.bsc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using ClassModel.model.RqGrafana;
 
 namespace DashBoardService.server.bcs
 {
     public interface II8MobileAcceptance:IReponsitory<I8MobileAcceptance>
     {
+        dynamic acceptanceStatistic(RqGrafana rq);
     }
 }

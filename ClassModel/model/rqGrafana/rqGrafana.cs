@@ -34,14 +34,16 @@ namespace ClassModel.model.RqGrafana
     }
     public class Targets
     {
-        public string target { get; set; }
+        public string datasource { get; set; }
+        public dynamic target { get; set; }
         public string refId { get; set; }
         public string type { get; set; }
+        public dynamic data { get; set; }
     }
     public class AdhocFilters
     {
         public string key { get; set; }
-        public string operators { get; set; }
+        public string @operator { get; set; }
         public string value { get; set; }
     }
 }

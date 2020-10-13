@@ -241,8 +241,8 @@ namespace DashBoardService.server.bcs.impl
                 i8MobileAcceptance.PCT_HOAN_TAT_QUA_MOBILE_APP = bsc.PCT_HOAN_TAT_QUA_MOBILE_APP;
                 i8MobileAcceptance.donvi_cha_id = bsc.donvi_cha_id;
                 i8MobileAcceptance.doi_vt = bsc.doi_vt;
-                i8MobileAcceptance.trungtam = bsc.TTVT;
-                i8MobileAcceptance.ngay_ht = DateTime.ParseExact(bsc.ngay_ht, "dd/MM/yyyy", CultureInfo.InvariantCulture); ;
+                i8MobileAcceptance.TTVT = bsc.TTVT;
+                i8MobileAcceptance.ngay_ht = bsc.ngay_ht;
                 i8MobileAcceptance.ty_le = bsc.ty_le;
 
                 //m_i8MobileAcceptance.insert(i8MobileAcceptance);
@@ -330,8 +330,13 @@ namespace DashBoardService.server.bcs.impl
 
         public dynamic testQuery(RqGrafana rq)
         {
-            var vtungay = DateTime.Parse(rq.range.from).ToString("d");
-            var vdenngay = DateTime.Parse(rq.range.to).ToString("d");
+            DateTime tngay = Convert.ToDateTime(rq.range.from);
+            DateTime dngay = Convert.ToDateTime(rq.range.to);
+            var vtungay = (tngay.Day < 10 ? ("0" + tngay.Day.ToString()) : tngay.Day.ToString()) +
+                "/" + (tngay.Month < 10 ? "0" + tngay.Month.ToString() : tngay.Month.ToString()) + "/" + tngay.Year.ToString();
+            var vdenngay = (dngay.Day < 10 ? ("0" + dngay.Day.ToString()) : dngay.Day.ToString()) +
+                "/" + (dngay.Month < 10 ? "0" + dngay.Month.ToString() : dngay.Month.ToString()) + "/" + dngay.Year.ToString();
+
             List<BscRespond> result = new List<BscRespond>();
             var dyParam = new OracleDynamicParameters();
             dyParam.Add("vtungay", OracleDbType.Varchar2, ParameterDirection.Input, vtungay);

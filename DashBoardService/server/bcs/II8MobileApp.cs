@@ -1,5 +1,6 @@
 ﻿using ClassModel.connnection.reponsitory;
 using ClassModel.model.bsc;
+using ClassModel.model.RqGrafana;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,6 @@ namespace DashBoardService.server.bcs
 {
     public interface II8MobileApp:IReponsitory<I8MobileApp>
     {
+        dynamic usageStatistic(RqGrafana rq);
     }
 }

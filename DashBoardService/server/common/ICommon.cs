@@ -1,7 +1,12 @@
-﻿namespace DashBoardService.server.common
+﻿using ClassModel.model.RqGrafana;
+using System.Collections.Generic;
+
+namespace DashBoardService.server.common
 {
     public interface ICommon
     {
-        dynamic ConvertToUnix(string time);
+        dynamic getTargetList(dynamic data);
+        dynamic convertToUnix(string time);
+        dynamic convertUTCString(string time);
     }
 }

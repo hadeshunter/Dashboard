@@ -11,5 +11,7 @@ namespace DashBoardService.server.origanization
     public interface IOrganization:IReponsitory<Organization>
     {
         dynamic execureOrganization();
+        dynamic getAllUnit();
+        dynamic getAllCenter();
     }
 }

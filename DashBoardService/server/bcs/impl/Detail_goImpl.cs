@@ -7,6 +7,7 @@ using Dapper;
 using DashBoardService.server.bcs;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
+using System;
 using System.Collections.Generic;
 using System.Data;
 
@@ -22,10 +23,12 @@ namespace DashBoardServicve.server.bcs.impl
 
         public dynamic execureDetailgo(RqGrafana rq)
         {
+            var vtungay = DateTime.Parse(rq.range.from.ToString()).ToString("d");
+            var vdenngay = DateTime.Parse(rq.range.to.ToString()).ToString("d");
             List<Detail_go> result = new List<Detail_go>();
             var dyParam = new OracleDynamicParameters();
-            dyParam.Add("vtungay", OracleDbType.Varchar2, ParameterDirection.Input, "");
-            dyParam.Add("vdenngay", OracleDbType.Varchar2, ParameterDirection.Input, "");
+            dyParam.Add("vtungay", OracleDbType.Varchar2, ParameterDirection.Input, vtungay);
+            dyParam.Add("vdenngay", OracleDbType.Varchar2, ParameterDirection.Input, vdenngay);
             dyParam.Add("o_data", OracleDbType.RefCursor, ParameterDirection.Output);
             var conn = GetConnection();
             if (conn.State == ConnectionState.Closed)

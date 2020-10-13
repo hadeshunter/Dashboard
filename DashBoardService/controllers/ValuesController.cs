@@ -13,13 +13,40 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DashBoardService.Controllers
 {
-    [Route("api/dashboard/[controller]")]    [ApiController]    public class ValuesController : ControllerBase    {        private ICommon m_common;        private IBsc m_bsc;        private IOrganization m_organization;        private II8MobileApp m_i8MobileApp;
+    [Route("api/dashboard/[controller]")]
+    [ApiController]
+    public class ValuesController : ControllerBase
+    {
+        private ICommon m_common;
+        private IBsc m_bsc;
+        private IOrganization m_organization;
+        private II8MobileApp m_i8MobileApp;
+
+        public ValuesController(ICommon _common, IBsc _bsc, IOrganization organization, II8MobileApp i8Mobile)
+        {
+            m_common = _common;
+            m_bsc = _bsc;
+            m_organization = organization;
+            m_i8MobileApp = i8Mobile;
+        }
 
         //Tạo metrics cho HttpPost("Search")
-        private static readonly Dictionary<string, I8MobileApp> metrics = new Dictionary<string, I8MobileApp>        {            { "Tân Bình", new I8MobileApp() },            { "Đội Viễn Thông Phú Thọ Hòa", new I8MobileApp() },            { "Đội Viễn Thông Kỳ Hòa", new I8MobileApp() },            { "Đội Viễn Thông Tân Bình", new I8MobileApp() },            { "Đội Viễn Thông Âu Cơ", new I8MobileApp() }        };        public ValuesController(ICommon _common, IBsc _bsc, IOrganization organization, II8MobileApp i8Mobile)        {            m_common = _common;            m_bsc = _bsc;            m_organization = organization;            m_i8MobileApp = i8Mobile;        }        [HttpGet("test")]        public dynamic test()
+        private static readonly Dictionary<string, I8MobileApp> metrics = new Dictionary<string, I8MobileApp>
+        {
+            { "Tân Bình", new I8MobileApp() },
+            { "Đội Viễn Thông Phú Thọ Hòa", new I8MobileApp() },
+            { "Đội Viễn Thông Kỳ Hòa", new I8MobileApp() },
+            { "Đội Viễn Thông Tân Bình", new I8MobileApp() },
+            { "Đội Viễn Thông Âu Cơ", new I8MobileApp() }
+        };
+
+        [HttpGet("test")]
+        public dynamic test()
         {
             return "tesst";
-        }        [HttpGet] //should return 200 ok. Used for "Test connection" on the datasource config page.
+        }
+
+        [HttpGet] //should return 200 ok. Used for "Test connection" on the datasource config page.
         public dynamic Get() { return "success"; }
 
         //[HttpPost("search")]
@@ -31,12 +58,21 @@ namespace DashBoardService.Controllers
         //    return Ok();
         //}
         [HttpPost("search")] //used by the find metric options on the query tab in panels.
-        public IActionResult Search()        {            return Ok(metrics.Keys);        }
+        public IActionResult Search()
+        {
+            return Ok(metrics.Keys);
+        }
 
 
         //Định dạng dùng tạo table nhiều cột hàng.
-        [HttpPost("query")]        public dynamic query([FromBody] RqGrafana rq)        {            DataRespond datarp = new DataRespond();            try            {                List<dynamic> x = new List<dynamic>();
-                if (rq.targets[0].type == "timeserie")
+        [HttpPost("query")]
+        public dynamic query([FromBody] RqGrafana rq)
+        {
+            DataRespond datarp = new DataRespond();
+            try
+            {
+                List<dynamic> x = new List<dynamic>();
+                if (rq.targets[0].type == "timeseries")
                 {
                     List<BscRespond> result = m_bsc.testQuery(rq);
                     foreach (var e in rq.targets)
@@ -46,23 +82,25 @@ namespace DashBoardService.Controllers
                         {
                             if (ele.ten_dv.Contains(e.target))
                             {
-                                ele.unix_time = m_common.ConvertToUnix(ele.ngay);
+                                ele.unix_time = m_common.convertUTCString(ele.ngay);
                                 points.Add(new List<dynamic> { ele.sl_login, ele.unix_time });
                             }
                         }
                        
-                        x.Add(new { target = e.target, datapoints = points });
+                        x.Add(new { e.target, datapoints = points });
                     }
                 }
                 else if (rq.targets[0].type == "table")
                 {
                     List<BscRespond> result = m_bsc.testQuery(rq);
-                    foreach (var ele in result)
-                    {
-                        ele.unix_time = m_common.ConvertToUnix(ele.ngay);
-                    }
                     List<dynamic> col = new List<dynamic>
-                    {                        new { text = "Thời gian", type = "time"}, //Phải khai báo type = "time" để cột thời gian nhận unixtime mili giây                        new { text = "Tên trung tâm", type = "string"}, //String thì ko hiện lên chart                        new { text = "Tên đơn vị", type = "string"},                        new { text = "Số lượng login", type = "number"}, //Number hiện sô liệu lên chart                        new { text = "Tỷ lệ NV", type = "number"}                    };
+                    {
+                        new { text = "Thời gian", type = "time"}, //Phải khai báo type = "time" để cột thời gian nhận unixtime mili giây
+                        new { text = "Tên trung tâm", type = "string"}, //String thì ko hiện lên chart
+                        new { text = "Tên đơn vị", type = "string"},
+                        new { text = "Số lượng login", type = "number"}, //Number hiện sô liệu lên chart
+                        new { text = "Tỷ lệ NV", type = "number"}
+                    };
                     List<dynamic> row = new List<dynamic>();
                     foreach (var ele in result)
                     {
@@ -70,13 +108,30 @@ namespace DashBoardService.Controllers
                         {
                             if (ele.ten_tt.Contains(target.target))
                             {
+                                ele.unix_time = m_common.convertToUnix(ele.ngay);
                                 row.Add(new List<dynamic> { ele.unix_time, ele.ten_tt, ele.ten_dv, ele.sl_login, ele.ty_le });
                             }
                         };                        
                     };
 
-                    x = new List<dynamic> {                        new {                                columns = col,                                rows = row,                                type = "table"                            }                    };
-                }                                return x;            }            catch (Exception e)            {                datarp.error = e;            }            return datarp;        }
+                    x = new List<dynamic> {
+                        new {
+                                columns = col,
+                                rows = row,
+                                type = "table"
+                            }
+                    };
+                }
+                
+                return x;
+
+            }
+            catch (Exception e)
+            {
+                datarp.error = e;
+            }
+            return datarp;
+        }
 
         ////Định dạng chỉ có 2 cột time và value, vẽ multibar-graph
         //[HttpPost("query")]
@@ -113,10 +168,34 @@ namespace DashBoardService.Controllers
         //}
 
         [HttpPost("annotations")] //should return annotations.
-        public IActionResult GetAnnotations() { return Ok(); }        [HttpGet("getDetailDataReal")]        public dynamic getDetailDataReal()        {            BscRequest x = new BscRequest();            return m_bsc.execureDetailDataReal(x);        }        [HttpGet("getOrganization")]        public dynamic getOrganization()        {            DataRespond data = new DataRespond();            try            {                data.success = true;
+        public IActionResult GetAnnotations() { return Ok(); }
+
+        [HttpGet("getDetailDataReal")]
+        public dynamic getDetailDataReal()
+        {
+            BscRequest x = new BscRequest();
+            return m_bsc.execureDetailDataReal(x);
+        }
+
+        [HttpGet("getOrganization")]
+        public dynamic getOrganization()
+        {
+            DataRespond data = new DataRespond();
+            try
+            {
+                data.success = true;
                 //Không đủ quyền truy cập Kiemsoat
                 //data.data = m_organization.execureOrganization(); 
-                data.data = m_i8MobileApp.getAll();            }            catch (Exception e)            {                data.success = false;                data.message = e.Message;                data.error = e;            }            return data;        }
+                data.data = m_i8MobileApp.getAll();
+            }
+            catch (Exception e)
+            {
+                data.success = false;
+                data.message = e.Message;
+                data.error = e;
+            }
+            return data;
+        }
 
         //[HttpGet("getBsc")]
         //public dynamic getBsc([FromBody] BscRequest bscRequest)
@@ -142,7 +221,7 @@ namespace DashBoardService.Controllers
             List<BscRespond> result = m_bsc.testQuery(data);
             foreach (var ele in result)
             {
-                ele.unix_time = m_common.ConvertToUnix(ele.ngay);
+                ele.unix_time = m_common.convertToUnix(ele.ngay);
             }
 
             return result;
