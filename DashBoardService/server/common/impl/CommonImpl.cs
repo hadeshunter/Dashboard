@@ -16,15 +16,17 @@ namespace DashBoardService.server.common.impl
             return donvi_cha_id;
         }
 
-        public dynamic convertToUnix(string time)
+        public dynamic convertToUnix(DateTime time)
         {
-            DateTime utc = DateTime.ParseExact(time, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToUniversalTime();
+            //DateTime utc = DateTime.ParseExact(time, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToUniversalTime();
+            DateTime utc = time.ToUniversalTime();
             long unix = ((DateTimeOffset)utc).ToUnixTimeMilliseconds();
             return unix;
         }
-        public dynamic convertUTCString(string time)
+        public dynamic convertUTCString(DateTime time)
         {
-            DateTime utc = DateTime.Parse(time).ToUniversalTime();
+            //DateTime utc = DateTime.Parse(time).ToUniversalTime();
+            DateTime utc = time.ToUniversalTime();
             long unix = ((DateTimeOffset)utc).ToUnixTimeMilliseconds();
             return unix;
         }

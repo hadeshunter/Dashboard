@@ -11,6 +11,7 @@ using DashBoardService.server.bcs;
 using DashBoardService.server.common;
 using DashBoardService.server.origanization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace DashBoardService.controllers.i8Mobile
 {
@@ -90,7 +91,7 @@ namespace DashBoardService.controllers.i8Mobile
                     };
                     
                     var listByDate = listByTTVT
-                            .OrderBy(ele => m_common.convertUTCString(ele.ngay_ht))
+                            .OrderBy(ele => ele.ngay_ht)
                             .GroupBy(l => new { l.ngay_ht, l.donvi_id, l.doi_vt, l.donvi_cha_id, l.TTVT })
                             .Select(lg =>
                                new {
@@ -122,13 +123,20 @@ namespace DashBoardService.controllers.i8Mobile
                             if (ele.donvi_id == unit.donvi_id)
                             {
                                 var unix_time = m_common.convertToUnix(ele.ngay_ht);
-                                points.Add(new List<dynamic> { ele.PCT_HOAN_TAT_QUA_MOBILE_APP, unix_time });
+                                if (rq.targets[0].data.condition == "usaged")
+                                {
+                                    points.Add(new List<dynamic> { ele.PCT_HOAN_TAT_QUA_MOBILE_APP, unix_time });
+                                }
+                                else if (rq.targets[0].data.condition == "total")
+                                {
+                                    points.Add(new List<dynamic> { ele.PCT_CCDV_VA_SCDV_HOAN_TAT, unix_time });
+                                }
                             }
                         }
                         x.Add(new { target = unit.ten_dv, datapoints = points });
                     }
+                    
                 }
-
                 return x;
             }
             catch (Exception e)

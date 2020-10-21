@@ -82,7 +82,7 @@ namespace DashBoardService.Controllers
                         {
                             if (ele.ten_dv.Contains(e.target))
                             {
-                                ele.unix_time = m_common.convertUTCString(ele.ngay);
+                                ele.unix_time = m_common.convertUTCString(DateTime.Parse(ele.ngay));
                                 points.Add(new List<dynamic> { ele.sl_login, ele.unix_time });
                             }
                         }
@@ -108,7 +108,7 @@ namespace DashBoardService.Controllers
                         {
                             if (ele.ten_tt.Contains(target.target))
                             {
-                                ele.unix_time = m_common.convertToUnix(ele.ngay);
+                                ele.unix_time = m_common.convertToUnix(DateTime.Parse(ele.ngay));
                                 row.Add(new List<dynamic> { ele.unix_time, ele.ten_tt, ele.ten_dv, ele.sl_login, ele.ty_le });
                             }
                         };                        
@@ -221,7 +221,7 @@ namespace DashBoardService.Controllers
             List<BscRespond> result = m_bsc.testQuery(data);
             foreach (var ele in result)
             {
-                ele.unix_time = m_common.convertToUnix(ele.ngay);
+                ele.unix_time = m_common.convertToUnix(DateTime.Parse(ele.ngay));
             }
 
             return result;
