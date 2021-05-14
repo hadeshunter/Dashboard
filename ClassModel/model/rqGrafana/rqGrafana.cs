@@ -15,6 +15,7 @@ namespace ClassModel.model.RqGrafana
         public List<AdhocFilters> adhocFilters { get; set; }
         public string format { get; set; }
         public long maxDataPoints { get; set; }
+        public dynamic scopedVars { get; set; }
     }
     public class Range
     {
@@ -35,7 +36,7 @@ namespace ClassModel.model.RqGrafana
     public class Targets
     {
         public string datasource { get; set; }
-        public dynamic target { get; set; }
+        public string target { get; set; }
         public string refId { get; set; }
         public string type { get; set; }
         public dynamic data { get; set; }

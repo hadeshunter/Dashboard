@@ -41,7 +41,6 @@ namespace DashBoardService.server.bcs.impl
             var dyParam = new OracleDynamicParameters();
             dyParam.Add("vtungay", OracleDbType.Varchar2, ParameterDirection.Input, bscRequest.vtungay);
             dyParam.Add("vdenngay", OracleDbType.Varchar2, ParameterDirection.Input, bscRequest.vdenngay);
-
             dyParam.Add("returnds", OracleDbType.RefCursor, ParameterDirection.Output);
             var conn = GetConnection();
             if (conn.State == ConnectionState.Closed)
@@ -241,7 +240,7 @@ namespace DashBoardService.server.bcs.impl
                 i8MobileAcceptance.PCT_HOAN_TAT_QUA_MOBILE_APP = bsc.PCT_HOAN_TAT_QUA_MOBILE_APP;
                 i8MobileAcceptance.donvi_cha_id = bsc.donvi_cha_id;
                 i8MobileAcceptance.doi_vt = bsc.doi_vt;
-                i8MobileAcceptance.TTVT = bsc.TTVT;
+                i8MobileAcceptance.ttvt = bsc.ttvt;
                 i8MobileAcceptance.ngay_ht = bsc.ngay_ht;
                 i8MobileAcceptance.ty_le = bsc.ty_le;
 

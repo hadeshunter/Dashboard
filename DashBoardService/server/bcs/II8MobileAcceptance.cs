@@ -6,6 +6,7 @@ namespace DashBoardService.server.bcs
 {
     public interface II8MobileAcceptance:IReponsitory<I8MobileAcceptance>
     {
-        dynamic acceptanceStatistic(RqGrafana rq);
+        dynamic executeI8MobileAcceptance(RqGrafana rq);
+        dynamic getI8MobileAcceptance(RqGrafana rq);
     }
 }

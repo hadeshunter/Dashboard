@@ -21,13 +21,15 @@ namespace DashBoardService.Controllers
         private IBsc m_bsc;
         private IOrganization m_organization;
         private II8MobileApp m_i8MobileApp;
+        private IDetail_lapmoi m_lapmoi;
 
-        public ValuesController(ICommon _common, IBsc _bsc, IOrganization organization, II8MobileApp i8Mobile)
+        public ValuesController(ICommon _common, IBsc _bsc, IOrganization organization, II8MobileApp i8Mobile, IDetail_lapmoi _lapmoi)
         {
             m_common = _common;
             m_bsc = _bsc;
             m_organization = organization;
             m_i8MobileApp = i8Mobile;
+            m_lapmoi = _lapmoi;
         }
 
         //Tạo metrics cho HttpPost("Search")
@@ -39,12 +41,6 @@ namespace DashBoardService.Controllers
             { "Đội Viễn Thông Tân Bình", new I8MobileApp() },
             { "Đội Viễn Thông Âu Cơ", new I8MobileApp() }
         };
-
-        [HttpGet("test")]
-        public dynamic test()
-        {
-            return "tesst";
-        }
 
         [HttpGet] //should return 200 ok. Used for "Test connection" on the datasource config page.
         public dynamic Get() { return "success"; }
@@ -71,7 +67,7 @@ namespace DashBoardService.Controllers
             DataRespond datarp = new DataRespond();
             try
             {
-                List<dynamic> x = new List<dynamic>();
+                List<dynamic> response = new List<dynamic>();
                 if (rq.targets[0].type == "timeseries")
                 {
                     List<BscRespond> result = m_bsc.testQuery(rq);
@@ -82,12 +78,12 @@ namespace DashBoardService.Controllers
                         {
                             if (ele.ten_dv.Contains(e.target))
                             {
-                                ele.unix_time = m_common.convertUTCString(DateTime.Parse(ele.ngay));
+                                ele.unix_time = m_common.convertToUnix(DateTime.Parse(ele.ngay));
                                 points.Add(new List<dynamic> { ele.sl_login, ele.unix_time });
                             }
                         }
-                       
-                        x.Add(new { e.target, datapoints = points });
+
+                        response.Add(new { e.target, datapoints = points });
                     }
                 }
                 else if (rq.targets[0].type == "table")
@@ -111,10 +107,10 @@ namespace DashBoardService.Controllers
                                 ele.unix_time = m_common.convertToUnix(DateTime.Parse(ele.ngay));
                                 row.Add(new List<dynamic> { ele.unix_time, ele.ten_tt, ele.ten_dv, ele.sl_login, ele.ty_le });
                             }
-                        };                        
+                        };
                     };
 
-                    x = new List<dynamic> {
+                    response = new List<dynamic> {
                         new {
                                 columns = col,
                                 rows = row,
@@ -122,8 +118,8 @@ namespace DashBoardService.Controllers
                             }
                     };
                 }
-                
-                return x;
+
+                return response;
 
             }
             catch (Exception e)
@@ -225,6 +221,24 @@ namespace DashBoardService.Controllers
             }
 
             return result;
+        }
+
+        [HttpGet("getDetailLapMoi")]
+        public dynamic getDetailLapMoi()
+        {
+            DataRespond data = new DataRespond();
+            try
+            {
+                RqGrafana x = new RqGrafana();
+                data.success = true;
+                data.data = m_lapmoi.executeDetailLapmoi(x);
+            }
+            catch(Exception e)
+            {
+                data.error = e;
+                data.success = false;
+            }
+            return data;
         }
 
     }

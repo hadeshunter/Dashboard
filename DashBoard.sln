@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GatewayApi", "GatewayApi\Ga
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DashBoardService", "DashBoardService\DashBoardService.csproj", "{64ED9F38-062B-42FF-8575-0516B280CA2E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerConvert", "ServerConvert\ServerConvert.csproj", "{C04BBE61-86B1-4CD4-8644-4FBBDD4E606D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingListening", "TestingListening\TestingListening.csproj", "{05F90BBF-6E1B-46DF-9B82-BD12F0F997A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{64ED9F38-062B-42FF-8575-0516B280CA2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64ED9F38-062B-42FF-8575-0516B280CA2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64ED9F38-062B-42FF-8575-0516B280CA2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C04BBE61-86B1-4CD4-8644-4FBBDD4E606D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C04BBE61-86B1-4CD4-8644-4FBBDD4E606D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C04BBE61-86B1-4CD4-8644-4FBBDD4E606D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C04BBE61-86B1-4CD4-8644-4FBBDD4E606D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05F90BBF-6E1B-46DF-9B82-BD12F0F997A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05F90BBF-6E1B-46DF-9B82-BD12F0F997A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05F90BBF-6E1B-46DF-9B82-BD12F0F997A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05F90BBF-6E1B-46DF-9B82-BD12F0F997A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,6 +10,7 @@ namespace DashBoardService.server.bcs
 {
     public interface II8MobileApp:IReponsitory<I8MobileApp>
     {
-        dynamic usageStatistic(RqGrafana rq);
+        dynamic executeI8MobileApp(RqGrafana rq);
+        dynamic getI8MobileApp(RqGrafana rq);
     }
 }

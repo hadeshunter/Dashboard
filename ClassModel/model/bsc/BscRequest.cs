@@ -15,6 +15,7 @@ namespace ClassModel.model.bsc
         public int i_TTVT { get; set; }
         public string i_tungay { get; set; }
         public string i_denngay { get; set; }
+        public int vloaitb_id { get; set; }
 
     }
 }

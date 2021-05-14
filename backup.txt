@@ -1,6 +1,6 @@
-create or replace PACKAGE                               bc_dashboard AS 
+create or replace PACKAGE                         DASHBOARD AS 
 
-  /* ---------------------------------------------------------------------------------------------
+/* ---------------------------------------------------------------------------------------------
    |  Description: THONG KE SO LUONG LAP MOI, GO THEO PCT, TTVT= HD_THUEBAO(DONVI_ID), TOVT=CSS_HCM.HDTB_DV(DONVI_ID) 
    |  Author: 
    |  Creation Date: 22-aug-2020
@@ -13,30 +13,65 @@ PROCEDURE tke_lm_go_theo_dvtb
    )  
 ;
 
-PROCEDURE i8_tk_tyle_ccdv_va_scdv_nghiem_thu_mobile_app
-     (
-        vtungay varchar2,           --dd/mm/yyyy
-        vdenngay varchar2,          --dd/mm/yyyy
---        vnguoidung_id varchar2,     --
---        vdonvi_cha_id number,
-        vtrangthai varchar2,        --all: xem tong quat; chi_tiet: xem chi tiet
-        returnds out SYS_REFCURSOR
-    );
-
-PROCEDURE i8_tk_tyle_nvvt_sudung_mobile_app
-     (
-        vtungay varchar2,           --dd/MM/yyyy
-        vdenngay varchar2,          --dd/MM/yyyy
---        vnguoidung_id varchar2,
---        vdonvi_cha_id number,
-        vtrangthai varchar2,        --all: xem tong quat; chi_tiet: xem chi tiet
-        returnds out SYS_REFCURSOR
-    );
     PROCEDURE i8_sudung_mobile_app_by_khanh
      (
         vtungay varchar2,
         vdenngay varchar2, 
+        vdonvi_id number,
         returnds out SYS_REFCURSOR
     );
-
-END bc_dashboard;
+    PROCEDURE tke_daonhthupsc_theotucap(
+        vthang number,returnds out SYS_REFCURSOR
+    );
+    PROCEDURE tke_lapmoigo_thuebao
+     (
+        vthang varchar2,
+        returnds out SYS_REFCURSOR
+    );
+    PROCEDURE detail_fiber_mytv
+    (
+          i_tuNgay in varchar2, --dd-mm-yyyy
+          i_denNgay in varchar2, --dd-mm-yyyy
+          o_data OUT sys_refcursor   
+    );
+    PROCEDURE detail_sl_thuctang
+    (
+          o_data OUT sys_refcursor   
+    );
+    PROCEDURE detail_lapmoi
+    (
+        vtungay varchar2,
+        vdenngay varchar2,
+        vloaitb_id number,
+        o_data OUT sys_refcursor   
+    );
+    
+    PROCEDURE detail_go
+    (
+        vtungay varchar2,
+        vdenngay varchar2,
+        vloaitb_id number,
+        o_data OUT sys_refcursor   
+    );
+    PROCEDURE getTTVT_DoiVT
+    (
+        o_data OUT sys_refcursor   
+    );
+    PROCEDURE getTTVT
+    (
+        o_data OUT sys_refcursor   
+    );
+    
+    PROCEDURE i8NghiemThuByKhanh
+    (
+        vtungay varchar2,
+        vdenngay varchar2,
+        o_data OUT sys_refcursor   
+    );
+    PROCEDURE combohome
+    (
+        v_thang varchar2,
+        o_data OUT sys_refcursor   
+    );
+--------------------------------------------------
+END DASHBOARD;
