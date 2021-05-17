@@ -29,7 +29,36 @@ namespace DashBoardService.server.installationInventoryFiber
             return conn;
         }
 
-       
+        public dynamic GetInstallationInventoryFiberByDate(string month)
+        {
+            //var date = m_common.convertToString(rq);
+            //string month = date.Item1.Substring(6, 4) + date.Item1.Substring(3, 2);
+            List<installationInventoryFiberModel> result = new List<installationInventoryFiberModel>();
+            var dyParam = new OracleDynamicParameters();
+            dyParam.Add("v_thang", OracleDbType.Varchar2, ParameterDirection.Input, month);
+            dyParam.Add("o_data", OracleDbType.RefCursor, ParameterDirection.Output);
+            var conn = GetConnection();
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+            if (conn.State == ConnectionState.Open)
+            {
+                var query = "dashboard.tk_giamtyle_tonlapdat_fiber_date";
+                try
+                {
+                    result = SqlMapper.Query<installationInventoryFiberModel>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<installationInventoryFiberModel>();
+                }
+                catch (Exception)
+                {
+                    CreateTable(month);
+                    InsertDataToTable(month);
+                    result = SqlMapper.Query<installationInventoryFiberModel>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<installationInventoryFiberModel>();
+                }
+                conn.Close();
+            }
+            return result;
+        }
 
         public dynamic GetInstallationInventoryFiber(string month)
         {
@@ -59,9 +88,6 @@ namespace DashBoardService.server.installationInventoryFiber
                 }
                 conn.Close();
             }
-            
-            
-           
             return result;
         }
 
