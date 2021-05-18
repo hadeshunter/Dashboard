@@ -9,7 +9,7 @@ namespace DashBoardService.server.installationInventoryFiber
     public interface IInstallationInventoryFiber
     {
         dynamic GetInstallationInventoryFiber(string month);
-        dynamic GetInstallationInventoryFiberByDate(string month);
+        dynamic GetInstallationInventoryFiberByDate(RqGrafana rq);
         dynamic CreateTable(string month);
         dynamic InsertDataToTable(string month);
         dynamic GetDataForGrafana(RqGrafana rq);

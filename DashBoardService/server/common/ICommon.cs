@@ -22,6 +22,8 @@ namespace DashBoardService.server.common
         dynamic convertDayToUnix(long day, long month, long year);
         dynamic GetIso8601WeekOfYear(DateTime time);
         dynamic GetMonthsBetween(DateTime from, DateTime to);
+        IEnumerable<DateTime> EachDay(string fromDate, string toDate);
+        IEnumerable<long> EachUnixDay(string fromDate, string toDate);
     }
 
     public static partial class DateTimeExtensions

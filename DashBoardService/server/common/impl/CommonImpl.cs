@@ -200,5 +200,21 @@ namespace DashBoardService.server.common.impl
 
             return results;
         }
+
+        public IEnumerable<DateTime> EachDay(string fromDate, string toDate)
+        {
+            DateTime from = Convert.ToDateTime(fromDate);
+            DateTime to = Convert.ToDateTime(toDate);
+            for (var day = from.Date; day.Date <= to.Date; day = day.AddDays(1))
+                yield return day;
+        }
+
+        public IEnumerable<long> EachUnixDay(string fromDate, string toDate)
+        {
+            DateTime from = Convert.ToDateTime(fromDate);
+            DateTime to = Convert.ToDateTime(toDate);
+            for (var day = from.Date; day.Date <= to.Date; day = day.AddDays(1))
+                yield return convertDayToUnix(day.Day, day.Month, day.Year);
+        }
     }
 }

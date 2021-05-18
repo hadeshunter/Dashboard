@@ -25,16 +25,7 @@ namespace DashBoardService.server.pktReport.detail.impl
 
         private dynamic getTonLDFiberDate_Oracle(RqGrafana rq)
         {
-            DateTime dngay = Convert.ToDateTime(rq.range.to);
-            var date = m_common.convertToString(rq);
-            var startdate = new DateTime(Int32.Parse(date.Item1.Substring(6, 4)), Int32.Parse(date.Item1.Substring(3, 2)), Int32.Parse(date.Item1.Substring(0, 2)));
-            var enddate = new DateTime(Int32.Parse(date.Item2.Substring(6, 4)), Int32.Parse(date.Item2.Substring(3, 2)), Int32.Parse(date.Item2.Substring(0, 2)));
-            var listmonth = m_common.GetMonthsBetween(startdate, enddate);
-            List<installationInventoryFiberModel> result = new List<installationInventoryFiberModel>();
-            foreach (dynamic month in listmonth)
-            {
-                result.AddRange(m_tonLDFiber.GetInstallationInventoryFiberByDate(month.ToString("yyyyMM")));
-            }
+            List<installationInventoryFiberModel> result = m_tonLDFiber.GetInstallationInventoryFiberByDate(rq);
             return result;
         }
 
