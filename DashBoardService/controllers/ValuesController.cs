@@ -74,14 +74,14 @@ namespace DashBoardService.Controllers
                     foreach (var e in rq.targets)
                     {
                         List<dynamic> points = new List<dynamic>();
-                        foreach (var ele in result)
-                        {
-                            if (ele.ten_dv.Contains(e.target))
-                            {
-                                ele.unix_time = m_common.convertToUnix(DateTime.Parse(ele.ngay));
-                                points.Add(new List<dynamic> { ele.sl_login, ele.unix_time });
-                            }
-                        }
+                        //foreach (var ele in result)
+                        //{
+                        //    if (ele.ten_dv.Contains(e.target))
+                        //    {
+                        //        ele.unix_time = m_common.convertToUnix((string)ele.ngay);
+                        //        points.Add(new List<dynamic> { ele.sl_login, ele.unix_time });
+                        //    }
+                        //}
 
                         response.Add(new { e.target, datapoints = points });
                     }
@@ -98,17 +98,17 @@ namespace DashBoardService.Controllers
                         new { text = "Tỷ lệ NV", type = "number"}
                     };
                     List<dynamic> row = new List<dynamic>();
-                    foreach (var ele in result)
-                    {
-                        foreach (var target in rq.targets)
-                        {
-                            if (ele.ten_tt.Contains(target.target))
-                            {
-                                ele.unix_time = m_common.convertToUnix(DateTime.Parse(ele.ngay));
-                                row.Add(new List<dynamic> { ele.unix_time, ele.ten_tt, ele.ten_dv, ele.sl_login, ele.ty_le });
-                            }
-                        };
-                    };
+                    //foreach (var ele in result)
+                    //{
+                    //    foreach (var target in rq.targets)
+                    //    {
+                    //        if (ele.ten_tt.Contains(target.target))
+                    //        {
+                    //            ele.unix_time = m_common.convertToUnix((string)ele.ngay);
+                    //            row.Add(new List<dynamic> { ele.unix_time, ele.ten_tt, ele.ten_dv, ele.sl_login, ele.ty_le });
+                    //        }
+                    //    };
+                    //};
 
                     response = new List<dynamic> {
                         new {
@@ -215,10 +215,10 @@ namespace DashBoardService.Controllers
         public dynamic execureI8MobileApp([FromBody] RqGrafana data)
         {
             List<BscRespond> result = m_bsc.testQuery(data);
-            foreach (var ele in result)
-            {
-                ele.unix_time = m_common.convertToUnix(DateTime.Parse(ele.ngay));
-            }
+            //foreach (var ele in result)
+            //{
+            //    ele.unix_time = m_common.convertToUnix((string)ele.ngay);
+            //}
 
             return result;
         }

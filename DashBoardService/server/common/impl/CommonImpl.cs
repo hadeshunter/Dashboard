@@ -55,7 +55,8 @@ namespace DashBoardService.server.common.impl
 
         public dynamic convertToUnix(DateTime time)
         {
-            DateTime utc = time.ToUniversalTime();
+            var date = time.Year.ToString() + "-" + (time.Month < 10 ? "0" + time.Month.ToString() : time.Month.ToString()) + "-" + (time.Day < 10 ? "0" + time.Day.ToString() : time.Day.ToString());
+            DateTime utc = DateTime.Parse(date).ToUniversalTime();
             long unix = ((DateTimeOffset)utc).ToUnixTimeMilliseconds();
             return unix;
         }

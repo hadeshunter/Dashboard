@@ -26,7 +26,7 @@ namespace DashBoardService.server.pktReport.detail.impl
             m_ccdvDungThoiGian = ccdvDungThoiGian;
         }
 
-        public dynamic getCCDV_oracle(int cable, string startime, string endtime)
+        private dynamic getCCDV_oracle(int cable, string startime, string endtime)
         {
             var checkDate = m_ccdvDungThoiGian.toDataConvert(startime, endtime);
             List<Ccdv_Dung_Tg> data = new List<Ccdv_Dung_Tg>();
@@ -74,6 +74,7 @@ namespace DashBoardService.server.pktReport.detail.impl
         private dynamic getCCDV_DTG_TTVT(int cable, int unit, string startime, string endtime)
         {
             List<dynamic> data = new List<dynamic>();
+            DateTime time = DateTime.ParseExact(startime, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             List<Unit> listTTVT = m_common.getListTTVT();
             List<Ccdv_Dung_Tg> list = getCCDV_oracle(cable, startime, endtime);
             var list_ccdv = list
@@ -85,7 +86,7 @@ namespace DashBoardService.server.pktReport.detail.impl
                         lg.Key.donvi_cha_id,
                         lg.Key.ten_dvql,
                         ok_ccdv = lg.Sum(l => l.ok_khonghen_ccdv) + lg.Sum(l => l.ok_cohen_ccdv),
-                        unix_date = m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
+                        unix_date = time.Year == lg.Key.Year && time.Month == lg.Key.Month && time.Day != 1 ? m_common.convertDayToUnix(time.Day + 1, lg.Key.Month, lg.Key.Year) : m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
                     });
             foreach (Unit ttvt in listTTVT)
             {
@@ -134,6 +135,7 @@ namespace DashBoardService.server.pktReport.detail.impl
         private dynamic getCCDV_DTG_DoiVT(int cable, int unit, string startime, string endtime)
         {
             List<dynamic> data = new List<dynamic>();
+            DateTime time = DateTime.ParseExact(startime, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             List<Unit> listDoiVT = m_common.getListDoiVT().FindAll(item => item.donvi_cha_id == unit);
             List<Ccdv_Dung_Tg> list = getCCDV_oracle(cable, startime, endtime);
             var list_ccdv = list
@@ -145,7 +147,7 @@ namespace DashBoardService.server.pktReport.detail.impl
                         lg.Key.donvi_id,
                         lg.Key.ten_dvql,
                         ok_ccdv = lg.Sum(l => l.ok_khonghen_ccdv) + lg.Sum(l => l.ok_cohen_ccdv),
-                        unix_date = m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
+                        unix_date = time.Year == lg.Key.Year && time.Month == lg.Key.Month && time.Day != 1 ? m_common.convertDayToUnix(time.Day + 1, lg.Key.Month, lg.Key.Year) : m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
                     });
             foreach (Unit ttvt in listDoiVT)
             {
@@ -194,6 +196,7 @@ namespace DashBoardService.server.pktReport.detail.impl
         private dynamic getCCDV_TTG_TTVT(int cable, int unit, string startime, string endtime)
         {
             List<dynamic> data = new List<dynamic>();
+            DateTime time = DateTime.ParseExact(startime, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             List<Unit> listTTVT = m_common.getListTTVT();
             List<Ccdv_Dung_Tg> list = getCCDV_oracle(cable, startime, endtime);
             var list_ccdv = list
@@ -205,7 +208,7 @@ namespace DashBoardService.server.pktReport.detail.impl
                         lg.Key.donvi_cha_id,
                         lg.Key.ten_dvql,
                         tregio_ccdv = lg.Sum(l => l.tregio_khonghen_ccdv) + lg.Sum(l => l.tregio_cohen_ccdv),
-                        unix_date = m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
+                        unix_date = time.Year == lg.Key.Year && time.Month == lg.Key.Month && time.Day != 1 ? m_common.convertDayToUnix(time.Day + 1, lg.Key.Month, lg.Key.Year) : m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
                     });
             foreach (Unit ttvt in listTTVT)
             {
@@ -254,6 +257,7 @@ namespace DashBoardService.server.pktReport.detail.impl
         private dynamic getCCDV_TTG_DoiVT(int cable, int unit, string startime, string endtime)
         {
             List<dynamic> data = new List<dynamic>();
+            DateTime time = DateTime.ParseExact(startime, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             List<Unit> listDoiVT = m_common.getListDoiVT().FindAll(item => item.donvi_cha_id == unit);
             List<Ccdv_Dung_Tg> list = getCCDV_oracle(cable, startime, endtime);
             var list_ccdv = list
@@ -265,7 +269,7 @@ namespace DashBoardService.server.pktReport.detail.impl
                         lg.Key.donvi_id,
                         lg.Key.ten_dvql,
                         tregio_ccdv = lg.Sum(l => l.tregio_khonghen_ccdv) + lg.Sum(l => l.tregio_cohen_ccdv),
-                        unix_date = m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
+                        unix_date = time.Year == lg.Key.Year && time.Month == lg.Key.Month && time.Day != 1 ? m_common.convertDayToUnix(time.Day + 1, lg.Key.Month, lg.Key.Year) : m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
                     });
             foreach (Unit ttvt in listDoiVT)
             {
@@ -314,6 +318,7 @@ namespace DashBoardService.server.pktReport.detail.impl
         private dynamic getCCDV_TL_TTVT(int cable, int unit, string startime, string endtime)
         {
             List<dynamic> data = new List<dynamic>();
+            DateTime time = DateTime.ParseExact(startime, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             List<Unit> listTTVT = m_common.getListTTVT();
             List<Ccdv_Dung_Tg> list = getCCDV_oracle(cable, startime, endtime);
             var list_ccdv = list
@@ -325,7 +330,7 @@ namespace DashBoardService.server.pktReport.detail.impl
                         lg.Key.donvi_cha_id,
                         lg.Key.ten_dvql,
                         tyle_ccdv = Math.Round((double)(lg.Sum(l => l.ok_khonghen_ccdv)+lg.Sum(l=>l.ok_cohen_ccdv))*100/lg.Sum(l => l.tong_pct),2),
-                        unix_date = m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
+                        unix_date = time.Year == lg.Key.Year && time.Month == lg.Key.Month && time.Day != 1 ? m_common.convertDayToUnix(time.Day + 1, lg.Key.Month, lg.Key.Year) : m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
                     });
             foreach (Unit ttvt in listTTVT)
             {
@@ -374,6 +379,7 @@ namespace DashBoardService.server.pktReport.detail.impl
         private dynamic getCCDV_TL_DoiVT(int cable, int unit, string startime, string endtime)
         {
             List<dynamic> data = new List<dynamic>();
+            DateTime time = DateTime.ParseExact(startime, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             List<Unit> listDoiVT = m_common.getListDoiVT().FindAll(item => item.donvi_cha_id == unit);
             List<Ccdv_Dung_Tg> list = getCCDV_oracle(cable, startime, endtime);
             var list_ccdv = list.FindAll(item => item.donvi_cha_id == unit)
@@ -385,7 +391,7 @@ namespace DashBoardService.server.pktReport.detail.impl
                         lg.Key.donvi_id,
                         lg.Key.ten_dv,
                         tyle_ccdv = Math.Round((double)(lg.Sum(l => l.ok_khonghen_ccdv) + lg.Sum(l => l.ok_cohen_ccdv))*100/lg.Sum(l => l.tong_pct), 2),
-                        unix_date = m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
+                        unix_date = time.Year == lg.Key.Year && time.Month == lg.Key.Month && time.Day != 1 ? m_common.convertDayToUnix(time.Day + 1, lg.Key.Month, lg.Key.Year) : m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
                     });
             foreach (Unit ttvt in listDoiVT)
             {
@@ -513,8 +519,6 @@ namespace DashBoardService.server.pktReport.detail.impl
             }
             return data;
         }
-
-        
 
         public dynamic getCCDV(RqGrafana rq)
         {

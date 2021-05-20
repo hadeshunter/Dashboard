@@ -8,7 +8,6 @@ namespace DashBoardService.server.pktReport.detail
 {
     public interface IThoaiTra
     {
-        dynamic getThoaiTraDate(RqGrafana rq);
         dynamic getThoaiTraPTC(RqGrafana rq);
     }
 }
