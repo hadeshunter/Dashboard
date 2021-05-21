@@ -38,6 +38,8 @@ using DashBoardService.server.convertdata.xlsc.impl;
 using DashBoardService.server.convertdata.xlsc;
 using DashBoardService.server.convertdata.tk_khl;
 using DashBoardService.server.convertdata.tk_khl.impl;
+using DashBoardService.server.convertdata.tonLDFiber;
+using DashBoardService.server.convertdata.tonLDFiber.impl;
 
 namespace DashBoardService
 {
@@ -77,11 +79,13 @@ namespace DashBoardService
             services.AddScoped<IThoaitraPCT, ThoaitraPCTImpl>();
             services.AddScoped<IHMIS, HMISImpl>();
 
+            //Server Convert
             services.AddScoped<ICcdvDungThoiGian, CcdvDungThoiGianImpl>();
             services.AddScoped<ISua_Chua_DV_Dung_TG_Quy_Dinh_New, Sua_Chua_DV_Dung_TG_Quy_Dinh_NewImpl>();
             services.AddScoped<ITyLeThoiGianDapUngXuLySuCo, TyLeThoiGianDapUngXuLySuCoImpl>();
             services.AddScoped<ITK_KhongHaiLong_CLDV,TK_KhongHaiLong_CLDVImpl>();
             services.AddScoped<ITK_KhongHaiLong_CLPV, TK_KhongHaiLong_CLPVImpl>();
+            services.AddScoped<ITonLapdatFiber, TonLapdatFiberImpl>();
 
             //SQL server
             services.AddScoped<ICCDV, CCDVImpl>();

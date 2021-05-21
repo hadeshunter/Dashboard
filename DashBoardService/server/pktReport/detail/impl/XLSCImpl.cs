@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using ClassModel.convertdata.xlsc;
@@ -97,6 +98,7 @@ namespace DashBoardService.server.pktReport.detail.impl
         private dynamic getXLSC_SLBH_TTVT(int cable, int unit, string startime, string endtime)
         {
             List<dynamic> data = new List<dynamic>();
+            DateTime time = DateTime.ParseExact(startime, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             List<Unit> listTTVT = m_common.getListTTVT();
             List<TyLeThoiGianDapUngXuLySuCo> list = getXLSC_oracle(cable, startime, endtime);
             var list_xlsc = list
@@ -108,7 +110,7 @@ namespace DashBoardService.server.pktReport.detail.impl
                         lg.Key.dv_cha_id,
                         lg.Key.ten_trungtam,
                         bh_tong = lg.Sum(l => l.bh_tong),
-                        unix_date = m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
+                        unix_date = time.Year == lg.Key.Year && time.Month == lg.Key.Month && time.Day != 1 ? m_common.convertDayToUnix(time.Day + 1, lg.Key.Month, lg.Key.Year) : m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
                     });
             foreach (Unit ttvt in listTTVT)
             {
@@ -157,6 +159,7 @@ namespace DashBoardService.server.pktReport.detail.impl
         private dynamic getXLSC_SLBH_DoiVT(int cable, int unit, string startime, string endtime)
         {
             List<dynamic> data = new List<dynamic>();
+            DateTime time = DateTime.ParseExact(startime, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             List<Unit> listDoiVT = m_common.getListDoiVT().FindAll(item => item.donvi_cha_id == unit);
             List<TyLeThoiGianDapUngXuLySuCo> list = getXLSC_oracle(cable, startime, endtime);
             var list_xlsc = list.FindAll(item => item.dv_cha_id == unit)
@@ -168,7 +171,7 @@ namespace DashBoardService.server.pktReport.detail.impl
                         lg.Key.donvi_id,
                         lg.Key.ten_dv,
                         bh_tong = lg.Sum(l => l.bh_tong),
-                        unix_date = m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
+                        unix_date = time.Year == lg.Key.Year && time.Month == lg.Key.Month && time.Day != 1 ? m_common.convertDayToUnix(time.Day + 1, lg.Key.Month, lg.Key.Year) : m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
                     });
             foreach (Unit ttvt in listDoiVT)
             {
@@ -217,6 +220,7 @@ namespace DashBoardService.server.pktReport.detail.impl
         private dynamic getXLSC_SLST_TTVT(int cable, int unit, string startime, string endtime)
         {
             List<dynamic> data = new List<dynamic>();
+            DateTime time = DateTime.ParseExact(startime, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             List<Unit> listTTVT = m_common.getListTTVT();
             List<TyLeThoiGianDapUngXuLySuCo> list = getXLSC_oracle(cable, startime, endtime);
             var list_xlsc = list
@@ -228,7 +232,7 @@ namespace DashBoardService.server.pktReport.detail.impl
                         lg.Key.dv_cha_id,
                         lg.Key.ten_trungtam,
                         st_tong = lg.Sum(l => l.st_tong),
-                        unix_date = m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
+                        unix_date = time.Year == lg.Key.Year && time.Month == lg.Key.Month && time.Day != 1 ? m_common.convertDayToUnix(time.Day + 1, lg.Key.Month, lg.Key.Year) : m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
                     });
             foreach (Unit ttvt in listTTVT)
             {
@@ -277,6 +281,7 @@ namespace DashBoardService.server.pktReport.detail.impl
         private dynamic getXLSC_SLST_DoiVT(int cable, int unit, string startime, string endtime)
         {
             List<dynamic> data = new List<dynamic>();
+            DateTime time = DateTime.ParseExact(startime, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             List<Unit> listDoiVT = m_common.getListDoiVT().FindAll(item => item.donvi_cha_id == unit);
             List<TyLeThoiGianDapUngXuLySuCo> list = getXLSC_oracle(cable, startime, endtime);
             var list_xlsc = list.FindAll(item => item.dv_cha_id == unit)
@@ -288,7 +293,7 @@ namespace DashBoardService.server.pktReport.detail.impl
                         lg.Key.donvi_id,
                         lg.Key.ten_dv,
                         st_tong = lg.Sum(l => l.st_tong),
-                        unix_date = m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
+                        unix_date = time.Year == lg.Key.Year && time.Month == lg.Key.Month && time.Day != 1 ? m_common.convertDayToUnix(time.Day + 1, lg.Key.Month, lg.Key.Year) : m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
                     });
             foreach (Unit ttvt in listDoiVT)
             {
@@ -337,6 +342,7 @@ namespace DashBoardService.server.pktReport.detail.impl
         private dynamic getXLSC_SLQG_TTVT(int cable, int unit, string startime, string endtime)
         {
             List<dynamic> data = new List<dynamic>();
+            DateTime time = DateTime.ParseExact(startime, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             List<Unit> listTTVT = m_common.getListTTVT();
             List<TyLeThoiGianDapUngXuLySuCo> list = getXLSC_oracle(cable, startime, endtime);
             var list_xlsc = list
@@ -348,7 +354,7 @@ namespace DashBoardService.server.pktReport.detail.impl
                         lg.Key.dv_cha_id,
                         lg.Key.ten_trungtam,
                         st_quagio = lg.Sum(l => l.st_quagio),
-                        unix_date = m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
+                        unix_date = time.Year == lg.Key.Year && time.Month == lg.Key.Month && time.Day != 1 ? m_common.convertDayToUnix(time.Day + 1, lg.Key.Month, lg.Key.Year) : m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
                     });
             foreach (Unit ttvt in listTTVT)
             {
@@ -397,6 +403,7 @@ namespace DashBoardService.server.pktReport.detail.impl
         private dynamic getXLSC_SLQG_DoiVT(int cable, int unit, string startime, string endtime)
         {
             List<dynamic> data = new List<dynamic>();
+            DateTime time = DateTime.ParseExact(startime, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             List<Unit> listDoiVT = m_common.getListDoiVT().FindAll(item => item.donvi_cha_id == unit);
             List<TyLeThoiGianDapUngXuLySuCo> list = getXLSC_oracle(cable, startime, endtime);
             var list_xlsc = list.FindAll(item => item.dv_cha_id == unit)
@@ -408,7 +415,7 @@ namespace DashBoardService.server.pktReport.detail.impl
                         lg.Key.donvi_id,
                         lg.Key.ten_dv,
                         st_quagio = lg.Sum(l => l.st_quagio),
-                        unix_date = m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
+                        unix_date = time.Year == lg.Key.Year && time.Month == lg.Key.Month && time.Day != 1 ? m_common.convertDayToUnix(time.Day + 1, lg.Key.Month, lg.Key.Year) : m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
                     });
             foreach (Unit ttvt in listDoiVT)
             {
@@ -457,6 +464,7 @@ namespace DashBoardService.server.pktReport.detail.impl
         private dynamic getXLSC_TL_TTVT(int cable, int unit, string startime, string endtime)
         {
             List<dynamic> data = new List<dynamic>();
+            DateTime time = DateTime.ParseExact(startime, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             List<Unit> listTTVT = m_common.getListTTVT();
             List<TyLeThoiGianDapUngXuLySuCo> list = getXLSC_oracle(cable, startime, endtime);
             var list_xlsc = list
@@ -468,7 +476,7 @@ namespace DashBoardService.server.pktReport.detail.impl
                         lg.Key.dv_cha_id,
                         lg.Key.ten_trungtam,
                         tyle_chuagiamtru = Math.Round((double)lg.Sum(l => l.st_tong) * 100 / lg.Sum(l => l.bh_tong), 4),
-                        unix_date = m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
+                        unix_date = time.Year == lg.Key.Year && time.Month == lg.Key.Month && time.Day != 1 ? m_common.convertDayToUnix(time.Day + 1, lg.Key.Month, lg.Key.Year) : m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
                     });
             foreach (Unit ttvt in listTTVT)
             {
@@ -517,6 +525,7 @@ namespace DashBoardService.server.pktReport.detail.impl
         private dynamic getXLSC_TL_DoiVT(int cable, int unit, string startime, string endtime)
         {
             List<dynamic> data = new List<dynamic>();
+            DateTime time = DateTime.ParseExact(startime, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             List<Unit> listDoiVT = m_common.getListDoiVT().FindAll(item => item.donvi_cha_id == unit);
             List<TyLeThoiGianDapUngXuLySuCo> list = getXLSC_oracle(cable, startime, endtime);
             var list_xlsc = list.FindAll(item => item.dv_cha_id == unit)
@@ -528,7 +537,7 @@ namespace DashBoardService.server.pktReport.detail.impl
                         lg.Key.donvi_id,
                         lg.Key.ten_dv,
                         tyle_chuagiamtru = Math.Round((double)lg.Sum(l => l.st_tong) * 100 / lg.Sum(l => l.bh_tong), 4),
-                        unix_date = m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
+                        unix_date = time.Year == lg.Key.Year && time.Month == lg.Key.Month && time.Day != 1 ? m_common.convertDayToUnix(time.Day + 1, lg.Key.Month, lg.Key.Year) : m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
                     });
             foreach (Unit ttvt in listDoiVT)
             {

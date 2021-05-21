@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using ClassModel.model.installationInventoryFiber;
 using ClassModel.model.RqGrafana;
 using ClassModel.model.unit;
 using DashBoardService.server.common;
+using DashBoardService.server.convertdata.tonLDFiber;
 using DashBoardService.server.installationInventoryFiber;
 using Microsoft.Extensions.Configuration;
 
@@ -16,17 +20,55 @@ namespace DashBoardService.server.pktReport.detail.impl
         private ICommon m_common;
         private IConfiguration m_configuration;
         private IInstallationInventoryFiber m_tonLDFiber;
-        public TonLDFiberImpl(ICommon m_common, IConfiguration m_configuration, IInstallationInventoryFiber tonLDFiber)
+        private ITonLapdatFiber m_convert_data;
+        public TonLDFiberImpl(ICommon m_common, IConfiguration m_configuration, IInstallationInventoryFiber tonLDFiber, ITonLapdatFiber convert_data)
         {
             this.m_common = m_common;
             this.m_configuration = m_configuration;
             m_tonLDFiber = tonLDFiber;
+            m_convert_data = convert_data;
         }
 
         private dynamic getTonLDFiberDate_Oracle(RqGrafana rq)
         {
-            List<installationInventoryFiberModel> result = m_tonLDFiber.GetInstallationInventoryFiberByDate(rq);
-            return result;
+            var (startime, endtime) = m_common.convertToString(rq);
+            var checkDate = m_convert_data.toDataConvert(startime, endtime);
+            List<installationInventoryFiberModel> data = new List<installationInventoryFiberModel>();
+            //data = m_tonLDFiber.GetInstallationInventoryFiberByDate(rq);
+            if (checkDate == true)
+            {
+                string connStr = m_configuration.GetConnectionString("DefaultConnection");
+                var dt = new DataTable();
+                using (var conn = new SqlConnection(connStr))
+                {
+                    conn.Open();
+                    //@"select * from [dbo].Ccdv_Dung_Tg where ngaycn_bbbg between CONVERT(date,'" + startime + "',103) and CONVERT(date,'" + endtime + "',103)"
+                    using (var cmd = new SqlCommand(@"select * from [dbo].TonLDFiber where ngay_yc between CONVERT(DATETIME,'" + startime + "',103) and CONVERT(DATETIME,'" + endtime + "',103)", conn))
+                    {
+                        SqlDataReader rdr = cmd.ExecuteReader();
+                        while (rdr.Read())
+                        {
+                            installationInventoryFiberModel row = new installationInventoryFiberModel();
+                            row.donvi_id = Convert.ToInt32(rdr["donvi_id"]);
+                            row.donvi_cha_id = Convert.ToInt32(rdr["donvi_cha_id"]);
+                            row.ten_dv = rdr["ten_dv"].ToString();
+                            row.ten_dv_cha = rdr["ten_dv_cha"].ToString();
+                            row.ngay_yc = (DateTime)rdr["ngay_yc"];
+                            row.tong_fiber = Convert.ToInt32(rdr["tong_fiber"]);
+                            row.ton_fiber = Convert.ToInt32(rdr["ton_fiber"]);
+                            row.lapdat_fiber = Convert.ToInt32(rdr["lapdat_fiber"]);
+                            row.tyle_ton = Convert.ToDouble(rdr["tyle_ton"]);
+                            data.Add(row);
+                        }
+                    }
+                    conn.Close();
+                }
+                return data;
+            }
+            else
+            {
+                return data;
+            }
         }
 
         private dynamic getTonLDFiber_SLTon_date(RqGrafana rq)
@@ -92,6 +134,8 @@ namespace DashBoardService.server.pktReport.detail.impl
         private dynamic getTonLDFiber_SLTon(RqGrafana rq)
         {
             List<dynamic> data = new List<dynamic>();
+            var (startime, endtime) = m_common.convertToString(rq);
+            DateTime time = DateTime.ParseExact(startime, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             List<installationInventoryFiberModel> list = getTonLDFiberDate_Oracle(rq);
             if ((int)rq.scopedVars.unit.value == 0)
             {
@@ -107,7 +151,7 @@ namespace DashBoardService.server.pktReport.detail.impl
                                 lg.Key.donvi_cha_id,
                                 lg.Key.ten_dv_cha,
                                 ton_fiber = lg.Sum(l => l.ton_fiber),
-                                unix_date = m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
+                                unix_date = time.Year == lg.Key.Year && time.Month == lg.Key.Month && time.Day != 1 ? m_common.convertDayToUnix(time.Day + 1, lg.Key.Month, lg.Key.Year) : m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
                             })
                          .Where(item => item.donvi_cha_id == ttvt.donvi_id);
                     List<dynamic> points = new List<dynamic>();
@@ -135,7 +179,7 @@ namespace DashBoardService.server.pktReport.detail.impl
                                 lg.Key.donvi_id,
                                 lg.Key.ten_dv,
                                 ton_fiber = lg.Sum(l => l.ton_fiber),
-                                unix_date = m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
+                                unix_date = time.Year == lg.Key.Year && time.Month == lg.Key.Month && time.Day != 1 ? m_common.convertDayToUnix(time.Day + 1, lg.Key.Month, lg.Key.Year) : m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
                             });
                     List<dynamic> points = new List<dynamic>();
                     foreach (var item in list_sl_ton)
@@ -212,6 +256,8 @@ namespace DashBoardService.server.pktReport.detail.impl
         private dynamic getTonLDFiber_SLLD(RqGrafana rq)
         {
             List<dynamic> data = new List<dynamic>();
+            var (startime, endtime) = m_common.convertToString(rq);
+            DateTime time = DateTime.ParseExact(startime, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             List<installationInventoryFiberModel> list = getTonLDFiberDate_Oracle(rq);
             if ((int)rq.scopedVars.unit.value == 0)
             {
@@ -227,7 +273,7 @@ namespace DashBoardService.server.pktReport.detail.impl
                                 lg.Key.donvi_cha_id,
                                 lg.Key.ten_dv_cha,
                                 lapdat_fiber = lg.Sum(l => l.lapdat_fiber),
-                                unix_date = m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
+                                unix_date = time.Year == lg.Key.Year && time.Month == lg.Key.Month && time.Day != 1 ? m_common.convertDayToUnix(time.Day + 1, lg.Key.Month, lg.Key.Year) : m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
                             })
                          .Where(item => item.donvi_cha_id == ttvt.donvi_id);
                     List<dynamic> points = new List<dynamic>();
@@ -255,7 +301,7 @@ namespace DashBoardService.server.pktReport.detail.impl
                                 lg.Key.donvi_id,
                                 lg.Key.ten_dv,
                                 lapdat_fiber = lg.Sum(l => l.lapdat_fiber),
-                                unix_date = m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
+                                unix_date = time.Year == lg.Key.Year && time.Month == lg.Key.Month && time.Day != 1 ? m_common.convertDayToUnix(time.Day + 1, lg.Key.Month, lg.Key.Year) : m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
                             });
                     List<dynamic> points = new List<dynamic>();
                     foreach (var item in list_sl_ld)
@@ -332,6 +378,8 @@ namespace DashBoardService.server.pktReport.detail.impl
         private dynamic getTonLDFiber_TL(RqGrafana rq)
         {
             List<dynamic> data = new List<dynamic>();
+            var (startime, endtime) = m_common.convertToString(rq);
+            DateTime time = DateTime.ParseExact(startime, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             List<installationInventoryFiberModel> list = getTonLDFiberDate_Oracle(rq);
             if ((int)rq.scopedVars.unit.value == 0)
             {
@@ -347,7 +395,7 @@ namespace DashBoardService.server.pktReport.detail.impl
                                 lg.Key.donvi_cha_id,
                                 lg.Key.ten_dv_cha,
                                 tyle_ton = Math.Round((double)lg.Sum(l => l.ton_fiber) * 100 / lg.Sum(l => l.tong_fiber), 4),
-                                unix_date = m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
+                                unix_date = time.Year == lg.Key.Year && time.Month == lg.Key.Month && time.Day != 1 ? m_common.convertDayToUnix(time.Day + 1, lg.Key.Month, lg.Key.Year) : m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
                             })
                          .Where(item => item.donvi_cha_id == ttvt.donvi_id);
                     List<dynamic> points = new List<dynamic>();
@@ -374,7 +422,7 @@ namespace DashBoardService.server.pktReport.detail.impl
                                 lg.Key.donvi_id,
                                 lg.Key.ten_dv,
                                 tyle_ton = Math.Round((double)lg.Sum(l => l.ton_fiber) * 100 / lg.Sum(l => l.tong_fiber), 4),
-                                unix_date = m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
+                                unix_date = time.Year == lg.Key.Year && time.Month == lg.Key.Month && time.Day != 1 ? m_common.convertDayToUnix(time.Day + 1, lg.Key.Month, lg.Key.Year) : m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
                             })
                          .Where(item => item.donvi_id == doivt.donvi_id);
                     List<dynamic> points = new List<dynamic>();
