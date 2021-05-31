@@ -73,6 +73,7 @@ namespace DashBoardService.server.pktReport.impl
             {
                 var query = "dashboard.Cung_Cap_DV_Dung_TG_Quy_Dinh";
                 result = SqlMapper.Query<Ccdv_Dung_Tg>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<Ccdv_Dung_Tg>();
+                conn.Close();
             }
             return result;
         }
@@ -165,6 +166,7 @@ namespace DashBoardService.server.pktReport.impl
             {
                 var query = "dashboard.Sua_Chua_DV_Dung_TG_Quy_Dinh";
                 result = SqlMapper.Query<SCDVDTG>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<SCDVDTG>();
+                conn.Close();
             }
             return result;
         }
@@ -251,6 +253,7 @@ namespace DashBoardService.server.pktReport.impl
             {
                 var query = "dashboard.Ty_Le_Dap_Ung_Thoi_Gian_Xu_Ly_Su_Co_KTR_TSL";
                 result = SqlMapper.Query<TLDUTGXLSC>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<TLDUTGXLSC>();
+                conn.Close();
             }
             return result;
         }
@@ -435,6 +438,7 @@ namespace DashBoardService.server.pktReport.impl
             {
                 var query = "dashboard.hssd_capdong";
                 result = SqlMapper.Query<UsingPerformance>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<UsingPerformance>();
+                conn.Close();
             }
             return result;
         }
@@ -512,6 +516,7 @@ namespace DashBoardService.server.pktReport.impl
             {
                 var query = "dashboard.hssd_capquang";
                 result = SqlMapper.Query<UsingPerformance>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<UsingPerformance>();
+                conn.Close();
             }
             return result;
         }
@@ -598,6 +603,7 @@ namespace DashBoardService.server.pktReport.impl
             {
                 var query = "dashboard.solieu_megavnn_1thang";
                 result = SqlMapper.Query<MegaVNNModel>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).ToList();
+                conn.Close();
             }
             return result;
         }
@@ -709,6 +715,7 @@ namespace DashBoardService.server.pktReport.impl
             {
                 var query = "dashboard.BC_3_8_LUYKE_LAPGO_FIBERVNN";
                 result = SqlMapper.Query<LuykeLapgoFiber>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).ToList();
+                conn.Close();
             }
             return result;
         }
@@ -729,6 +736,7 @@ namespace DashBoardService.server.pktReport.impl
             {
                 var query = "dashboard.tk_luyke_lapgo_fibervnn_date";
                 result = SqlMapper.Query<LuykeLapgoFiber_date>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<LuykeLapgoFiber_date>();
+                conn.Close();
             }
             return result;
         }
@@ -803,6 +811,7 @@ namespace DashBoardService.server.pktReport.impl
             {
                 var query = "dashboard.mll_bts";
                 result = SqlMapper.Query<MLLBTS>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<MLLBTS>();
+                conn.Close();
             }
             return result;
         }
@@ -870,6 +879,7 @@ namespace DashBoardService.server.pktReport.impl
             {
                 var query = "dashboard.mll_nguyennhan";
                 result = SqlMapper.Query<MLLNN>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<MLLNN>();
+                conn.Close();
             }
             return result;
         }
@@ -944,6 +954,7 @@ namespace DashBoardService.server.pktReport.impl
             {
                 var query = "dashboard.tk_mll_bts";
                 result = SqlMapper.Query<tk_mll_bts>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<tk_mll_bts>();
+                conn.Close();
             }
             return result;
         }
@@ -967,6 +978,7 @@ namespace DashBoardService.server.pktReport.impl
             {
                 var query = "dashboard.tk_mll_bts_nn";
                 result = SqlMapper.Query<tk_mll_bts_nn>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<tk_mll_bts_nn>();
+                conn.Close();
             }
             return result;
         }
@@ -988,6 +1000,7 @@ namespace DashBoardService.server.pktReport.impl
             {
                 var query = "dashboard.pakh_dd";
                 result = SqlMapper.Query<ReflectionMobileQuality>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<ReflectionMobileQuality>();
+                conn.Close();
             }
             return result;
         }

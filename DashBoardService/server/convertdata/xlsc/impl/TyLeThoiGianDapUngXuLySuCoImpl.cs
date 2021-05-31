@@ -81,6 +81,7 @@ namespace DashBoardService.server.convertdata.xlsc.impl
                 {
                     var query = "dashboard.Ty_Le_Dap_Ung_Thoi_Gian_Xu_Ly_Su_Co_KTR_TSL";
                     result = SqlMapper.Query<TyLeThoiGianDapUngXuLySuCo>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<TyLeThoiGianDapUngXuLySuCo>();
+                    conn.Close();
                 }
                 insertCCDV(result);
             }

@@ -77,6 +77,7 @@ namespace DashBoardService.server.convertdata.tk_khl.impl
                 {
                     var query = "dashboard.TK_KhongHaiLong_CLDV_date";
                     result = SqlMapper.Query<TK_KhongHaiLong_CLDV>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<TK_KhongHaiLong_CLDV>();
+                    conn.Close();
                 }
                 insertKhongHaiLong_CLDV(result);
             }

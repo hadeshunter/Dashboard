@@ -81,6 +81,7 @@ namespace DashBoardService.server.convertdata.ccdv.impl
                 {
                     var query = "dashboard.Cung_Cap_DV_Dung_TG_Quy_Dinh";
                     result = SqlMapper.Query<Ccdv_Dung_Tg>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<Ccdv_Dung_Tg>();
+                    conn.Close();
                 }
                 insertCCDV(result);
             }

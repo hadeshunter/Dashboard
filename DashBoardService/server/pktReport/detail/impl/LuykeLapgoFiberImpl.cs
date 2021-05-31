@@ -43,7 +43,14 @@ namespace DashBoardService.server.pktReport.detail.impl
                     new
                     {
                         lg.Key.donvi_id,
-                        sl_lapmoi = lg.Sum(l => l.lapmoi_lk) + lg.Sum(l => l.phuchoi_lk) + lg.Sum(l => l.dd_lm_lk) + lg.Sum(l => l.chuyendoi_lk),
+                        sl_lapmoi = lg.Where(l => l.ngay == new DateTime(l.ngay.Year,l.ngay.Month,DateTime.DaysInMonth(l.ngay.Year, l.ngay.Month)))
+                                       .Sum(l => l.lapmoi_lk) 
+                                    + lg.Where(l => l.ngay == new DateTime(l.ngay.Year, l.ngay.Month, DateTime.DaysInMonth(l.ngay.Year, l.ngay.Month)))
+                                        .Sum(l => l.phuchoi_lk) 
+                                    + lg.Where(l => l.ngay == new DateTime(l.ngay.Year, l.ngay.Month, DateTime.DaysInMonth(l.ngay.Year, l.ngay.Month)))
+                                        .Sum(l => l.dd_lm_lk) 
+                                    + lg.Where(l => l.ngay == new DateTime(l.ngay.Year, l.ngay.Month, DateTime.DaysInMonth(l.ngay.Year, l.ngay.Month)))
+                                        .Sum(l => l.chuyendoi_lk),
                         unix_date = time.Year == lg.Key.Year && time.Month == lg.Key.Month && time.Day != 1 ? m_common.convertDayToUnix(time.Day + 1, lg.Key.Month, lg.Key.Year) : m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
                     });
             foreach (Unit ttvt in listTTVT)
@@ -103,7 +110,14 @@ namespace DashBoardService.server.pktReport.detail.impl
                     new
                     {
                         lg.Key.donvi_id,
-                        sl_go = lg.Sum(l => l.go_yeucau_lk) + lg.Sum(l => l.go_lamsach_lk) + lg.Sum(l => l.dd_go_lk) + lg.Sum(l => l.cd_giam_lk),
+                        sl_go = lg.Where(l => l.ngay == new DateTime(l.ngay.Year, l.ngay.Month, DateTime.DaysInMonth(l.ngay.Year, l.ngay.Month)))
+                                    .Sum(l => l.go_yeucau_lk) 
+                                + lg.Where(l => l.ngay == new DateTime(l.ngay.Year, l.ngay.Month, DateTime.DaysInMonth(l.ngay.Year, l.ngay.Month)))
+                                    .Sum(l => l.go_lamsach_lk) 
+                                + lg.Where(l => l.ngay == new DateTime(l.ngay.Year, l.ngay.Month, DateTime.DaysInMonth(l.ngay.Year, l.ngay.Month)))
+                                    .Sum(l => l.dd_go_lk) 
+                                + lg.Where(l => l.ngay == new DateTime(l.ngay.Year, l.ngay.Month, DateTime.DaysInMonth(l.ngay.Year, l.ngay.Month)))
+                                    .Sum(l => l.cd_giam_lk),
                         unix_date = time.Year == lg.Key.Year && time.Month == lg.Key.Month && time.Day != 1 ? m_common.convertDayToUnix(time.Day + 1, lg.Key.Month, lg.Key.Year) : m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
                     });
             foreach (Unit ttvt in listTTVT)
@@ -163,7 +177,22 @@ namespace DashBoardService.server.pktReport.detail.impl
                     new
                     {
                         lg.Key.donvi_id,
-                        tyle_golm = Math.Round((double)(lg.Sum(l => l.go_yeucau_lk) + lg.Sum(l => l.go_lamsach_lk) + lg.Sum(l => l.dd_go_lk) + lg.Sum(l => l.cd_giam_lk))*100/(lg.Sum(l => l.lapmoi_lk) + lg.Sum(l => l.phuchoi_lk) + lg.Sum(l => l.dd_lm_lk) + lg.Sum(l => l.chuyendoi_lk)),2),
+                        tyle_golm = Math.Round((double)(lg.Where(l => l.ngay == new DateTime(l.ngay.Year, l.ngay.Month, DateTime.DaysInMonth(l.ngay.Year, l.ngay.Month)))
+                                                            .Sum(l => l.go_yeucau_lk) 
+                                                        + lg.Where(l => l.ngay == new DateTime(l.ngay.Year, l.ngay.Month, DateTime.DaysInMonth(l.ngay.Year, l.ngay.Month)))
+                                                            .Sum(l => l.go_lamsach_lk) 
+                                                        + lg.Where(l => l.ngay == new DateTime(l.ngay.Year, l.ngay.Month, DateTime.DaysInMonth(l.ngay.Year, l.ngay.Month)))
+                                                            .Sum(l => l.dd_go_lk) 
+                                                        + lg.Where(l => l.ngay == new DateTime(l.ngay.Year, l.ngay.Month, DateTime.DaysInMonth(l.ngay.Year, l.ngay.Month)))
+                                                            .Sum(l => l.cd_giam_lk)
+                                                      )*100/(lg.Where(l => l.ngay == new DateTime(l.ngay.Year, l.ngay.Month, DateTime.DaysInMonth(l.ngay.Year, l.ngay.Month)))
+                                                                .Sum(l => l.lapmoi_lk) 
+                                                           + lg.Where(l => l.ngay == new DateTime(l.ngay.Year, l.ngay.Month, DateTime.DaysInMonth(l.ngay.Year, l.ngay.Month)))
+                                                                .Sum(l => l.phuchoi_lk)
+                                                           + lg.Where(l => l.ngay == new DateTime(l.ngay.Year, l.ngay.Month, DateTime.DaysInMonth(l.ngay.Year, l.ngay.Month)))
+                                                                .Sum(l => l.dd_lm_lk) 
+                                                           + lg.Where(l => l.ngay == new DateTime(l.ngay.Year, l.ngay.Month, DateTime.DaysInMonth(l.ngay.Year, l.ngay.Month)))
+                                                                .Sum(l => l.chuyendoi_lk)),2),
                         unix_date = time.Year == lg.Key.Year && time.Month == lg.Key.Month && time.Day != 1 ? m_common.convertDayToUnix(time.Day + 1, lg.Key.Month, lg.Key.Year) : m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
                     });
             foreach (Unit ttvt in listTTVT)

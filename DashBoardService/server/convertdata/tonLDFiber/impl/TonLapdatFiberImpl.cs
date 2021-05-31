@@ -79,6 +79,7 @@ namespace DashBoardService.server.convertdata.tonLDFiber.impl
                 {
                     var query = "dashboard.tk_giamtyle_tonlapdat_fiber_date";
                     result = SqlMapper.Query<installationInventoryFiberModel>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<installationInventoryFiberModel>();
+                    conn.Close();
                 }
                 insertTonLDFiber(result);
             }

@@ -212,6 +212,7 @@ namespace DashBoardService.server.ThoaitraPCT
                                 + " DIACHI_LD VARCHAR2(500 BYTE) )";
 
                     SqlMapper.Query(conn, query, param: null, commandType: CommandType.Text);
+                    conn.Close();
                 }
                 return 1;
             }
@@ -279,6 +280,7 @@ namespace DashBoardService.server.ThoaitraPCT
                                 +" IP_CN VARCHAR2(30 BYTE) )";
 
                     SqlMapper.Query(conn, query, param: null, commandType: CommandType.Text);
+                    conn.Close();
                 }
                 return 1;
             }
@@ -361,6 +363,7 @@ namespace DashBoardService.server.ThoaitraPCT
             {
                 var query = "dashboard.tk_thoaitra_pct_date";
                 result = SqlMapper.Query<ThoaitraPTC>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<ThoaitraPTC>();
+                conn.Close();
             }
             return result;
         }
