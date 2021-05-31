@@ -28,13 +28,13 @@ namespace DashBoardService.server.ThoaitraNLML
             var conn = new OracleConnection(connectionString);
             return conn;
         }
-        public dynamic GetThoaitraNLML(string month)
+        public dynamic GetThoaitraNLMLDate(RqGrafana rq)
         {
-            //var date = m_common.convertToString(rq);
-            //string month = date.Item1.Substring(6, 4) + date.Item1.Substring(3, 2);
-            List<ThoaitraNLMLModel> result = new List<ThoaitraNLMLModel>();
+            List<ThoaitraNLMLModel_date> result = new List<ThoaitraNLMLModel_date>();
+            var date = m_common.convertToString(rq);
             var dyParam = new OracleDynamicParameters();
-            dyParam.Add("v_thang", OracleDbType.Varchar2, ParameterDirection.Input, month);
+            dyParam.Add("vtungay", OracleDbType.Varchar2, ParameterDirection.Input, date.Item1);
+            dyParam.Add("vdenngay", OracleDbType.Varchar2, ParameterDirection.Input, date.Item2);
             dyParam.Add("o_data", OracleDbType.RefCursor, ParameterDirection.Output);
             var conn = GetConnection();
             if (conn.State == ConnectionState.Closed)
@@ -43,18 +43,43 @@ namespace DashBoardService.server.ThoaitraNLML
             }
             if (conn.State == ConnectionState.Open)
             {
-                var query = "dashboard.tk_thoaitra_nlml";
-                try
+                var query = "dashboard.tk_thoaitra_nlml_date";
+                result = SqlMapper.Query<ThoaitraNLMLModel_date>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<ThoaitraNLMLModel_date>();
+            }
+            return result;
+        }
+        public dynamic GetThoaitraNLML(string month)
+        {
+            List<ThoaitraNLMLModel> result = new List<ThoaitraNLMLModel>();
+            if (Int32.Parse(month) < Int32.Parse(DateTime.Now.ToString("yyyyMM")))
+            {
+                //var date = m_common.convertToString(rq);
+                //string month = date.Item1.Substring(6, 4) + date.Item1.Substring(3, 2);
+                
+                var dyParam = new OracleDynamicParameters();
+                dyParam.Add("v_thang", OracleDbType.Varchar2, ParameterDirection.Input, month);
+                dyParam.Add("o_data", OracleDbType.RefCursor, ParameterDirection.Output);
+                var conn = GetConnection();
+                if (conn.State == ConnectionState.Closed)
                 {
-                    result = SqlMapper.Query<ThoaitraNLMLModel>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<ThoaitraNLMLModel>();
+                    conn.Open();
                 }
-                catch (Exception)
+                if (conn.State == ConnectionState.Open)
                 {
-                    CreateTable(month);
-                    InsertDataToTable(month);
-                    result = SqlMapper.Query<ThoaitraNLMLModel>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<ThoaitraNLMLModel>();
+                    var query = "dashboard.tk_thoaitra_nlml";
+                    try
+                    {
+                        result = SqlMapper.Query<ThoaitraNLMLModel>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<ThoaitraNLMLModel>();
+                    }
+                    catch (Exception)
+                    {
+                        CreateTable(month);
+                        InsertDataToTable(month);
+                        result = SqlMapper.Query<ThoaitraNLMLModel>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<ThoaitraNLMLModel>();
+
+                    }
+                    conn.Close();
                 }
-                conn.Close();
             }
 
 
@@ -209,22 +234,22 @@ namespace DashBoardService.server.ThoaitraNLML
         {
             try
             {
-                var dyParam = new OracleDynamicParameters();
-                dyParam.Add("v_namthang", OracleDbType.Varchar2, ParameterDirection.Input, month);
-                dyParam.Add("Return_Value", OracleDbType.Int16, ParameterDirection.ReturnValue);
+                    var dyParam = new OracleDynamicParameters();
+                    dyParam.Add("v_namthang", OracleDbType.Varchar2, ParameterDirection.Input, month);
+                    dyParam.Add("Return_Value", OracleDbType.Int16, ParameterDirection.ReturnValue);
 
-                var conn = GetConnection();
-                if (conn.State == ConnectionState.Closed)
-                {
-                    conn.Open();
-                }
-                if (conn.State == ConnectionState.Open)
-                {
-                    var query = "dashboard.them_dulieu_vao_table_ccdv_vtth";
-                    SqlMapper.Query(conn, query, param: dyParam, commandType: CommandType.StoredProcedure);
-                    conn.Close();
-                }
-                return 1;
+                    var conn = GetConnection();
+                    if (conn.State == ConnectionState.Closed)
+                    {
+                        conn.Open();
+                    }
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        var query = "dashboard.them_dulieu_vao_table_ccdv_vtth";
+                        SqlMapper.Query(conn, query, param: dyParam, commandType: CommandType.StoredProcedure);
+                        conn.Close();
+                    }
+                    return 1;
             }
             catch (Exception)
             {

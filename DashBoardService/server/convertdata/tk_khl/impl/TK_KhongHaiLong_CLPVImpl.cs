@@ -33,7 +33,7 @@ namespace DashBoardService.server.convertdata.tk_khl.impl
                     {
                         var item = listData[i];
                         var query = "INSERT INTO TK_KhongHaiLong_CLPV(tuan,ngay,donvi_cha_id,sl,timeinsert)" +
-                                  "VALUES('" + item.tuan + "','" + item.ngay + "'," + item.donvi_cha_id + "," + item.sl + "," + DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Day.ToString() + DateTime.Now.Hour.ToString() + ")";
+                                  "VALUES('" + item.tuan + "','" + (item.ngay.Month < 10 ? "0" + item.ngay.Month.ToString() : item.ngay.Month.ToString()) + "-" + (item.ngay.Day < 10 ? "0" + item.ngay.Day.ToString() : item.ngay.Day.ToString()) + "-" + item.ngay.Year + "'," + item.donvi_cha_id + "," + item.sl + "," + DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Day.ToString() + DateTime.Now.Hour.ToString() + ")";
                         using (SqlCommand command = new SqlCommand(query, con))
                         {
                             command.ExecuteNonQuery();

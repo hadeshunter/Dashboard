@@ -23,9 +23,11 @@ namespace DashBoardService.server.pktReport.impl
         private IXLSC m_xlsc;
         private IHSSDC m_hssdc;
         private IThoaiTra m_thoaitra;
+        private IThoaiTraLydo m_thoaiTraNLML;
         private ITonLDFiber m_tonLDFiber;
+        private ILuykeLapgoFiber m_luykeLapgoFiber;
         private IMLLBTS m_mllbts;
-        public PktReportSQLImpl(IConfiguration configuration, ICCDV ccdv, ISCDV scdv, ICLDV cldv, ICLPV clpv, IXLSC xlsc, IHSSDC hssdc, IThoaiTra thoaitra, ITonLDFiber tonLDFiber, IMLLBTS mllbts)
+        public PktReportSQLImpl(IConfiguration configuration, ICCDV ccdv, ISCDV scdv, ICLDV cldv, ICLPV clpv, IXLSC xlsc, IHSSDC hssdc, IThoaiTra thoaitra, IThoaiTraLydo thoaiTraNLML, ITonLDFiber tonLDFiber, ILuykeLapgoFiber luykeLapgoFiber, IMLLBTS mllbts)
         {
             m_configuration = configuration;
             m_ccdv = ccdv;
@@ -35,35 +37,25 @@ namespace DashBoardService.server.pktReport.impl
             m_xlsc = xlsc;
             m_hssdc = hssdc;
             m_thoaitra = thoaitra;
+            m_thoaiTraNLML = thoaiTraNLML;
             m_tonLDFiber = tonLDFiber;
+            m_luykeLapgoFiber = luykeLapgoFiber;
             m_mllbts = mllbts;
         }
 
         public dynamic getStatic(RqGrafana rq)
         {
             List<dynamic> data = new List<dynamic>();
-            // gType: 1-NLML; 2-CLML
-            if ((int)rq.scopedVars.gType.value == 1)
-            {
                 switch ((int)rq.scopedVars.criteria.value)
                 {
                     case 1: //CCDV
                         data = m_ccdv.getCCDV(rq);
                         break;
-                    case 3: //HSSDC
-                        data = m_hssdc.getHSSDC(rq);
-                        break;                    
-                    case 7: //Thoai tra PCT
-                        data = m_thoaitra.getThoaiTraPTC(rq);
-                        break;                   
-                }
-            } else if ((int)rq.scopedVars.gType.value == 2)
-            {
-                switch ((int)rq.scopedVars.criteria.value)
-                {
-                    
                     case 2: //SCDV
                         data = m_scdv.getSCDV(rq);
+                        break;
+                    case 3: //HSSDC
+                        data = m_hssdc.getHSSDC(rq);
                         break;
                     case 4: //XLSC
                         data = m_xlsc.getXLSC(rq);
@@ -74,8 +66,11 @@ namespace DashBoardService.server.pktReport.impl
                     case 6: //CLPV
                         data = m_clpv.getCLPV(rq);
                         break;
-                    case 8: //Ton LD Fiber
-                        data = m_tonLDFiber.getTonLDFiber(rq);
+                    case 7: //Thoai tra PCT
+                        data = m_thoaitra.getThoaiTraPTC(rq);
+                        break;
+                    case 8: //Ly do thoai tra
+                        data = m_thoaiTraNLML.getLydoThoaiTra(rq);
                         break;
                     case 9: //MLL BTS TG
                         data = m_mllbts.getMLLBTS_TG(rq);
@@ -83,9 +78,13 @@ namespace DashBoardService.server.pktReport.impl
                     case 11: //MLL BTS NN
                         data = m_mllbts.getMLLBTS_NN(rq);
                         break;
-                }
-            }
-            
+                    case 1014: //Ton LD Fiber
+                        data = m_tonLDFiber.getTonLDFiber(rq);
+                        break;
+                    case 1016: //Luy ke go/lap moi FiberVNN
+                        data = m_luykeLapgoFiber.getLuykeLapgoFiberVNN(rq);
+                        break;
+            }                           
             return data;
         }
     }

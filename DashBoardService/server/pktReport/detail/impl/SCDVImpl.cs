@@ -532,27 +532,7 @@ namespace DashBoardService.server.pktReport.detail.impl
             var date = m_common.convertToString(rq);
             switch ((int)rq.scopedVars.type.value)
             {
-                case 1: //Đúng giờ
-                    if (rq.targets[0].data.graph == "line")
-                    {
-                        data = getSCDV_DTG_date((int)rq.scopedVars.cable.value, (int)rq.scopedVars.unit.value, date.Item1, date.Item2);
-                    }
-                    else
-                    {
-                        data = getSCDV_DTG((int)rq.scopedVars.cable.value, (int)rq.scopedVars.unit.value, date.Item1, date.Item2);
-                    }                    
-                    break;
-                case 2: //Trễ giờ
-                    if (rq.targets[0].data.graph == "line")
-                    {
-                        data = getSCDV_TTG_date((int)rq.scopedVars.cable.value, (int)rq.scopedVars.unit.value, date.Item1, date.Item2);
-                    }
-                    else
-                    {
-                        data = getSCDV_TTG((int)rq.scopedVars.cable.value, (int)rq.scopedVars.unit.value, date.Item1, date.Item2);
-                    }                    
-                    break;
-                case 3: //Tỷ lệ
+                case 1: //Tỷ lệ
                     if (rq.targets[0].data.graph == "line")
                     {
                         data = getSCDV_TL_date((int)rq.scopedVars.cable.value, (int)rq.scopedVars.unit.value, date.Item1, date.Item2);
@@ -565,7 +545,26 @@ namespace DashBoardService.server.pktReport.detail.impl
                     {
                         data = getSCDV_TL((int)rq.scopedVars.cable.value, (int)rq.scopedVars.unit.value, date.Item1, date.Item2);
                     }
-                    
+                    break;
+                case 2: //Đúng giờ
+                    if (rq.targets[0].data.graph == "line")
+                    {
+                        data = getSCDV_DTG_date((int)rq.scopedVars.cable.value, (int)rq.scopedVars.unit.value, date.Item1, date.Item2);
+                    }
+                    else
+                    {
+                        data = getSCDV_DTG((int)rq.scopedVars.cable.value, (int)rq.scopedVars.unit.value, date.Item1, date.Item2);
+                    }
+                    break;
+                case 3: //Trễ giờ
+                    if (rq.targets[0].data.graph == "line")
+                    {
+                        data = getSCDV_TTG_date((int)rq.scopedVars.cable.value, (int)rq.scopedVars.unit.value, date.Item1, date.Item2);
+                    }
+                    else
+                    {
+                        data = getSCDV_TTG((int)rq.scopedVars.cable.value, (int)rq.scopedVars.unit.value, date.Item1, date.Item2);
+                    }
                     break;
             }
             return data;

@@ -440,8 +440,23 @@ namespace DashBoardService.server.pktReport.detail.impl
         public dynamic getTonLDFiber(RqGrafana rq)
         {
             List<dynamic> data = new List<dynamic>();
-            if ((int)rq.scopedVars.type.value == 1008) //SL ton
-            {
+            if ((int)rq.scopedVars.type.value == 1008) //Ty le ton
+            {                
+                if (rq.targets[0].data.graph == "line")
+                {
+                    data = getTonLDFiber_TL_date(rq);
+                }
+                else if (rq.targets[0].data.graph == "pie")
+                {
+                    data = getTonLDFiber_SLTon(rq);
+                }
+                else
+                {
+                    data = getTonLDFiber_TL(rq);
+                }
+            }
+            else if ((int)rq.scopedVars.type.value == 1009) //SL ton
+            {                
                 if (rq.targets[0].data.graph == "line")
                 {
                     data = getTonLDFiber_SLTon_date(rq);
@@ -449,9 +464,9 @@ namespace DashBoardService.server.pktReport.detail.impl
                 else
                 {
                     data = getTonLDFiber_SLTon(rq);
-                }               
+                }
             }
-            else if ((int)rq.scopedVars.type.value == 1009) //SL lap dat
+            else if ((int)rq.scopedVars.type.value == 1010) //SL lap dat
             {
                 if (rq.targets[0].data.graph == "line")
                 {
@@ -460,21 +475,7 @@ namespace DashBoardService.server.pktReport.detail.impl
                 else
                 {
                     data = getTonLDFiber_SLLD(rq);
-                }                
-            }
-            else if ((int)rq.scopedVars.type.value == 1010) //Ty le ton
-            {
-                if (rq.targets[0].data.graph == "line")
-                {
-                    data = getTonLDFiber_TL_date(rq);
                 }
-                else if(rq.targets[0].data.graph == "pie")
-                {
-                    data = getTonLDFiber_SLTon(rq);
-                } else
-                {
-                    data = getTonLDFiber_TL(rq);
-                }                
             }
             return data;
         }

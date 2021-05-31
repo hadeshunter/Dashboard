@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using ClassModel.convertdata.tk_khl;
@@ -36,7 +37,7 @@ namespace DashBoardService.server.pktReport.detail.impl
                 using (var conn = new SqlConnection(connStr))
                 {
                     conn.Open();
-                    using (var cmd = new SqlCommand(@"select tuan, CONVERT(DATETIME,ngay,103) ngay, donvi_cha_id, sl from [dbo].TK_KhongHaiLong_CLPV where CONVERT(DATETIME,ngay,103) between CONVERT(DATETIME,'" + startime + "',103) and CONVERT(DATETIME,'" + endtime + "',103)", conn))
+                    using (var cmd = new SqlCommand(@"select tuan, ngay, donvi_cha_id, sl from [dbo].TK_KhongHaiLong_CLPV where ngay between CONVERT(DATETIME,'" + startime + "',103) and CONVERT(DATETIME,'" + endtime + "',103)", conn))
                     {
                         SqlDataReader rdr = cmd.ExecuteReader();
                         while (rdr.Read())
@@ -117,7 +118,8 @@ namespace DashBoardService.server.pktReport.detail.impl
         private dynamic getCLPV_KHL(RqGrafana rq, List<TK_KhongHaiLong_CLPV> list)
         {
             List<dynamic> data = new List<dynamic>();
-
+            var date = m_common.convertToString(rq);
+            DateTime time = DateTime.ParseExact(date.Item1, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             if ((int)rq.scopedVars.unit.value == 0)
             {
                 List<Unit> listTTVT = m_common.getListTTVT();
@@ -131,7 +133,7 @@ namespace DashBoardService.server.pktReport.detail.impl
                             {
                                 lg.Key.donvi_cha_id,
                                 sl = lg.Sum(l => l.sl),
-                                unix_date = m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
+                                unix_date = time.Year == lg.Key.Year && time.Month == lg.Key.Month && time.Day != 1 ? m_common.convertDayToUnix(time.Day + 1, lg.Key.Month, lg.Key.Year) : m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
                             })
                          .Where(item => item.donvi_cha_id == ttvt.donvi_id);
                     List<dynamic> points = new List<dynamic>();
@@ -155,7 +157,7 @@ namespace DashBoardService.server.pktReport.detail.impl
                             {
                                 lg.Key.donvi_cha_id,
                                 sl = lg.Sum(l => l.sl),
-                                unix_date = m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
+                                unix_date = time.Year == lg.Key.Year && time.Month == lg.Key.Month && time.Day != 1 ? m_common.convertDayToUnix(time.Day + 1, lg.Key.Month, lg.Key.Year) : m_common.convertDayToUnix(1, lg.Key.Month, lg.Key.Year)
                             })
                          .Where(item => item.donvi_cha_id == donvi_id);
                 List<dynamic> points = new List<dynamic>();

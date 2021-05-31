@@ -95,7 +95,9 @@ namespace DashBoardService
             services.AddScoped<IXLSC, XLSCImpl>();
             services.AddScoped<IHSSDC, HSSDCImpl>();
             services.AddScoped<IThoaiTra, ThoaiTraImpl>();
+            services.AddScoped<IThoaiTraLydo, ThoaiTraLydoImpl>();
             services.AddScoped<ITonLDFiber, TonLDFiberImpl>();
+            services.AddScoped<ILuykeLapgoFiber, LuykeLapgoFiberImpl>();
             services.AddScoped<IMLLBTS, MLLBTSImpl>();
             services.AddScoped<IPktReportSQL, PktReportSQLImpl>();
             // Add Quartz services

@@ -32,34 +32,39 @@ namespace DashBoardService.server.ThoaitraPCT
         {
             //var date = m_common.convertToString(rq);
             //string month = date.Item1.Substring(6, 4) + date.Item1.Substring(3, 2);
+
             List<ThoaitraPCTModel> result = new List<ThoaitraPCTModel>();
-            var dyParam = new OracleDynamicParameters();
-            dyParam.Add("v_namthang", OracleDbType.Varchar2, ParameterDirection.Input, month);
-            dyParam.Add("o_data", OracleDbType.RefCursor, ParameterDirection.Output);
-            var conn = GetConnection();
-            if (conn.State == ConnectionState.Closed)
+            if (Int32.Parse(month) < Int32.Parse(DateTime.Now.ToString("yyyyMM")))
             {
-                conn.Open();
-            }
-            if (conn.State == ConnectionState.Open)
-            {
-                var query = "dashboard.tk_thoaitra_pct";
-                try
+                var dyParam = new OracleDynamicParameters();
+                dyParam.Add("v_namthang", OracleDbType.Varchar2, ParameterDirection.Input, month);
+                dyParam.Add("o_data", OracleDbType.RefCursor, ParameterDirection.Output);
+                var conn = GetConnection();
+                if (conn.State == ConnectionState.Closed)
                 {
-                    result = SqlMapper.Query<ThoaitraPCTModel>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<ThoaitraPCTModel>();
+                    conn.Open();
                 }
-                catch (Exception)
+                if (conn.State == ConnectionState.Open)
                 {
-                    CreateTableCCDV_GBDB(month);
-                    CreateTableThoaitra(month);
-                    InsertDataToTableCCDV_GBDB(month);
-                    InsertDataToTableThoaitra(month);
-                    result = SqlMapper.Query<ThoaitraPCTModel>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<ThoaitraPCTModel>();
+                    var query = "dashboard.tk_thoaitra_pct";
+                    try
+                    {
+                        result = SqlMapper.Query<ThoaitraPCTModel>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<ThoaitraPCTModel>();
+                    }
+                    catch (Exception)
+                    {
+                        CreateTableCCDV_GBDB(month);
+                        CreateTableThoaitra(month);
+                        InsertDataToTableCCDV_GBDB(month);
+                        InsertDataToTableThoaitra(month);
+                        result = SqlMapper.Query<ThoaitraPCTModel>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<ThoaitraPCTModel>();
+                    }
+                    conn.Close();
                 }
-                conn.Close();
             }
             return result;
         }
+
         public dynamic GetDataForGrafana(RqGrafana rq)
         {
             List<dynamic> response = new List<dynamic>();

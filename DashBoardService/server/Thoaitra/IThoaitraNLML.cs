@@ -8,6 +8,7 @@ namespace DashBoardService.server.ThoaitraNLML
 {
     public interface IThoaitraNLML
     {
+        dynamic GetThoaitraNLMLDate(RqGrafana rq);
         dynamic GetThoaitraNLML(string month);
         dynamic CreateTable(string month);
         dynamic InsertDataToTable(string month);

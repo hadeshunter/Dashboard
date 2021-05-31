@@ -712,6 +712,26 @@ namespace DashBoardService.server.pktReport.impl
             }
             return result;
         }
+        public dynamic executeLuykeLapgoFiberDate(RqGrafana rq)
+        {
+            var date = m_common.convertToString(rq);
+            List<LuykeLapgoFiber_date> result = new List<LuykeLapgoFiber_date>();
+            var dyParam = new OracleDynamicParameters();
+            dyParam.Add("vtungay", OracleDbType.Varchar2, ParameterDirection.Input, date.Item1);
+            dyParam.Add("vdenngay", OracleDbType.Varchar2, ParameterDirection.Input, date.Item2);
+            dyParam.Add("o_data", OracleDbType.RefCursor, ParameterDirection.Output);
+            var conn = GetConnection();
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+            if (conn.State == ConnectionState.Open)
+            {
+                var query = "dashboard.tk_luyke_lapgo_fibervnn_date";
+                result = SqlMapper.Query<LuykeLapgoFiber_date>(conn, query, param: dyParam, commandType: CommandType.StoredProcedure).AsList<LuykeLapgoFiber_date>();
+            }
+            return result;
+        }
         public dynamic getLuykeLapgoFiber(RqGrafana rq)
         {
             List<dynamic> response = new List<dynamic>();

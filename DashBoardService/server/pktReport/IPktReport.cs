@@ -22,6 +22,7 @@ namespace DashBoardService.server.pktReport
         dynamic getHSSDCQ(RqGrafana rq);
         dynamic executeMegaVNN(string month);
         dynamic getMegaVNN(RqGrafana rq);
+        dynamic executeLuykeLapgoFiberDate(RqGrafana rq);
         dynamic executeLuykeLapgoFiber(RqGrafana rq);
         dynamic getLuykeLapgoFiber(RqGrafana rq);
         dynamic executeMLLBTS(RqGrafana rq);
